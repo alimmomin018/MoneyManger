@@ -49,14 +49,12 @@ namespace MoneyManger.ViewModels
 
         private async void OnSave()
         {
-            Item newItem = new Item()
+            Person newItem = new Person()
             {
-                Id = Guid.NewGuid().ToString(),
-                Text = Text,
-                Description = Description
+
             };
 
-            await DataStore.AddItemAsync(newItem);
+            await DataStore.AddPersonAsync(newItem);
 
             // This will pop the current page off the navigation stack
             await Shell.Current.GoToAsync("..");
