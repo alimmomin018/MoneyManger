@@ -10,20 +10,20 @@ namespace MoneyManger.ViewModels
 {
     public class ItemsViewModel : BaseViewModel
     {
-        private Item _selectedItem;
+        private Person _selectedItem;
 
-        public ObservableCollection<Item> Items { get; }
+        public ObservableCollection<Person> Items { get; }
         public Command LoadItemsCommand { get; }
         public Command AddItemCommand { get; }
-        public Command<Item> ItemTapped { get; }
+        public Command<Person> ItemTapped { get; }
 
         public ItemsViewModel()
         {
             Title = "Browse";
-            Items = new ObservableCollection<Item>();
+            Items = new ObservableCollection<Person>();
             LoadItemsCommand = new Command(async () => await ExecuteLoadItemsCommand());
 
-            ItemTapped = new Command<Item>(OnItemSelected);
+            ItemTapped = new Command<Person>(OnItemSelected);
 
             AddItemCommand = new Command(OnAddItem);
         }
@@ -35,7 +35,7 @@ namespace MoneyManger.ViewModels
             try
             {
                 Items.Clear();
-                var items = await DataStore.GetItemsAsync(true);
+                var items = await DataStore.GetPeoplesAsync(true);
                 foreach (var item in items)
                 {
                     Items.Add(item);
@@ -57,7 +57,7 @@ namespace MoneyManger.ViewModels
             SelectedItem = null;
         }
 
-        public Item SelectedItem
+        public Person SelectedItem
         {
             get => _selectedItem;
             set
@@ -72,7 +72,7 @@ namespace MoneyManger.ViewModels
             await Shell.Current.GoToAsync(nameof(NewItemPage));
         }
 
-        async void OnItemSelected(Item item)
+        async void OnItemSelected(Person item)
         {
             if (item == null)
                 return;
