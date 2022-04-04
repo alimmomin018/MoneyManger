@@ -1,31 +1,32 @@
 ﻿using MoneyManger.Models;
-using MoneyManger.Views;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
+using System.Text;
 using System.Threading.Tasks;
+using Xamarin.CommunityToolkit.ObjectModel;
 using Xamarin.Forms;
 
 namespace MoneyManger.ViewModels
 {
-    public class ItemsViewModel : BaseViewModel
+    public class HomePageViewModel : BaseViewModel
     {
         private Person _selectedPerson;
 
         public ObservableCollection<Person> Persons { get; }
         public Command LoadPersonsCommand { get; }
-        public Command AddPersonCommand { get; }
+        public AsyncCommand<Person> AddPersonCommand { get; }
         public Command<Person> PersonTapped { get; }
 
-        public ItemsViewModel()
+        public HomePageViewModel()
         {
             Title = "Browse";
             Persons = new ObservableCollection<Person>();
             LoadPersonsCommand = new Command(async () => await ExecuteLoadPersonsCommand());
 
             PersonTapped = new Command<Person>(OnPersonSelected);
-
-            AddPersonCommand = new Command(OnPersonItem);
+            AddPersonCommand = new AsyncCommand<Person>((person) => AddPersonAsync(person));
         }
 
         async Task ExecuteLoadPersonsCommand()
@@ -67,7 +68,7 @@ namespace MoneyManger.ViewModels
             }
         }
 
-        private async void OnPersonItem(object obj)
+        async Task AddPersonAsync(Person obj)
         {
             //await Shell.Current.GoToAsync(nameof(NewItemPage));
         }
