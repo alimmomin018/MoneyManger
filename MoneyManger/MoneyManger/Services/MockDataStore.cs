@@ -12,6 +12,10 @@ namespace MoneyManger.Services
 
         public MockDataStore()
         {
+            // TODO: Database
+
+            // if default values don't exists then add them
+
             peoples = new List<Person>()
             {
 

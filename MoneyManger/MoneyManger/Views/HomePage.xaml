@@ -1,0 +1,50 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="MoneyManger.Views.HomePage"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:model="clr-namespace:MoneyManger.Models"
+    xmlns:vm="clr-namespace:MoneyManger.ViewModels"
+    x:Name="Layout"
+    Title="Money Manager"
+    x:DataType="vm:HomePageViewModel">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Command="{Binding AddPersonCommand}" Text="Add" />
+    </ContentPage.ToolbarItems>
+    <ContentPage.Content>
+        <StackLayout>
+            <RefreshView Command="{Binding LoadPersonsCommand}" IsRefreshing="{Binding IsBusy, Mode=TwoWay}">
+                <CollectionView ItemsSource="{Binding Persons}" SelectionMode="None">
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <StackLayout
+                                Padding="10"
+                                x:DataType="model:Person"
+                                Orientation="Horizontal">
+                                <StackLayout HorizontalOptions="StartAndExpand">
+                                    <Label
+                                        FontSize="16"
+                                        LineBreakMode="NoWrap"
+                                        Text="{Binding Name}" />
+                                    <Label
+                                        FontSize="13"
+                                        LineBreakMode="NoWrap"
+                                        Text="{Binding LastUpdated}" />
+                                </StackLayout>
+                                <StackLayout HorizontalOptions="End">
+                                    <Label Text="{Binding Total}" />
+                                </StackLayout>
+                                <StackLayout.GestureRecognizers>
+                                    <TapGestureRecognizer
+                                        Command="{Binding Path=BindingContext.SendRequestCommand, Source={x:Reference Layout}}"
+                                        CommandParameter="{Binding .}"
+                                        NumberOfTapsRequired="1" />
+                                </StackLayout.GestureRecognizers>
+                            </StackLayout>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </RefreshView>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>
