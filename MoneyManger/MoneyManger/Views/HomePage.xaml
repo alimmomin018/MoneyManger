@@ -3,43 +3,103 @@
     x:Class="MoneyManger.Views.HomePage"
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:fa="clr-namespace:PROOF.Resources"
     xmlns:model="clr-namespace:MoneyManger.Models"
     xmlns:vm="clr-namespace:MoneyManger.ViewModels"
     x:Name="Layout"
     Title="Money Manager"
     x:DataType="vm:HomePageViewModel">
     <ContentPage.ToolbarItems>
-        <ToolbarItem Command="{Binding AddPersonCommand}" Text="Add" />
+        <ToolbarItem Command="{Binding AddPersonCommand}" IconImageSource="{FontImage FontFamily=Regular, Glyph={x:Static fa:FAIcons.PlusCircle}, Color={AppThemeBinding Dark={StaticResource TextColorDark}, Light={StaticResource TextColor}}, Size=25}" />
     </ContentPage.ToolbarItems>
     <ContentPage.Content>
-        <StackLayout>
-            <RefreshView Command="{Binding LoadPersonsCommand}" IsRefreshing="{Binding IsBusy, Mode=TwoWay}">
-                <CollectionView ItemsSource="{Binding Persons}" SelectionMode="None">
+        <StackLayout Style="{StaticResource BasePageStyle}">
+            <RefreshView
+                Command="{Binding LoadPersonsCommand}"
+                IsRefreshing="{Binding IsBusy}"
+                Style="{StaticResource BaseRefreshView}">
+                <CollectionView
+                    ItemsSource="{Binding Persons}"
+                    SelectionMode="None"
+                    Style="{StaticResource BaseCollectionView}">
+                    <CollectionView.EmptyView>
+                        <StackLayout>
+                            <StackLayout HorizontalOptions="Center" VerticalOptions="CenterAndExpand">
+                                <Label
+                                    FontFamily="Medium"
+                                    HorizontalOptions="CenterAndExpand"
+                                    Text="You have not added anyone yet."
+                                    VerticalTextAlignment="Center" />
+                                <Button
+                                    Command="{Binding AddPersonCommand}"
+                                    Style="{StaticResource BaseOutlineButton}"
+                                    Text="Add Now" />
+                            </StackLayout>
+                        </StackLayout>
+                    </CollectionView.EmptyView>
                     <CollectionView.ItemTemplate>
                         <DataTemplate>
-                            <StackLayout
-                                Padding="10"
-                                x:DataType="model:Person"
-                                Orientation="Horizontal">
-                                <StackLayout HorizontalOptions="StartAndExpand">
-                                    <Label
-                                        FontSize="16"
-                                        LineBreakMode="NoWrap"
-                                        Text="{Binding Name}" />
-                                    <Label
-                                        FontSize="13"
-                                        LineBreakMode="NoWrap"
-                                        Text="{Binding LastUpdated}" />
-                                </StackLayout>
-                                <StackLayout HorizontalOptions="End">
-                                    <Label Text="{Binding Total}" />
-                                </StackLayout>
-                                <StackLayout.GestureRecognizers>
-                                    <TapGestureRecognizer
-                                        Command="{Binding Path=BindingContext.SendRequestCommand, Source={x:Reference Layout}}"
-                                        CommandParameter="{Binding .}"
-                                        NumberOfTapsRequired="1" />
-                                </StackLayout.GestureRecognizers>
+                            <StackLayout>
+                                <SwipeView>
+                                    <SwipeView.RightItems>
+                                        <SwipeItems>
+                                            <SwipeItemView Command="{Binding Path=BindingContext.EditPersonCommand, Source={x:Reference Layout}}" CommandParameter="{Binding .}">
+                                                <StackLayout Margin="10" VerticalOptions="Center">
+                                                    <Frame
+                                                        CornerRadius="20"
+                                                        HeightRequest="40"
+                                                        Style="{StaticResource BaseCard}"
+                                                        WidthRequest="40">
+                                                        <Image Margin="7">
+                                                            <Image.Source>
+                                                                <FontImageSource
+                                                                    FontFamily="Solid"
+                                                                    Glyph="{x:Static fa:FAIcons.Edit}"
+                                                                    Size="20"
+                                                                    Color="{AppThemeBinding Dark={StaticResource TextColorDark},
+                                                                                            Light={StaticResource TextColor}}" />
+                                                            </Image.Source>
+                                                        </Image>
+                                                    </Frame>
+                                                </StackLayout>
+                                            </SwipeItemView>
+                                        </SwipeItems>
+                                    </SwipeView.RightItems>
+                                    <Frame x:DataType="model:Person" Style="{StaticResource BaseCard}">
+                                        <StackLayout Orientation="Horizontal" VerticalOptions="Center">
+                                            <StackLayout HorizontalOptions="StartAndExpand" VerticalOptions="Center">
+                                                <Label
+                                                    LineBreakMode="NoWrap"
+                                                    Style="{StaticResource BaseTitleLabel}"
+                                                    Text="{Binding Name}" />
+                                                <Label LineBreakMode="NoWrap" Style="{StaticResource BaseLabel}">
+                                                    <Label.FormattedText>
+                                                        <FormattedString>
+                                                            <Span Text="Last updated: " />
+                                                            <Span Text="{Binding LastUpdated}" />
+                                                        </FormattedString>
+                                                    </Label.FormattedText>
+                                                </Label>
+                                            </StackLayout>
+                                            <StackLayout HorizontalOptions="End" VerticalOptions="Center">
+                                                <Label Style="{StaticResource BaseTitleLabel}">
+                                                    <Label.FormattedText>
+                                                        <FormattedString>
+                                                            <Span Text="$ " />
+                                                            <Span Text="{Binding Total}" />
+                                                        </FormattedString>
+                                                    </Label.FormattedText>
+                                                </Label>
+                                            </StackLayout>
+                                        </StackLayout>
+                                        <Frame.GestureRecognizers>
+                                            <TapGestureRecognizer
+                                                Command="{Binding Path=BindingContext.PersonTapped, Source={x:Reference Layout}}"
+                                                CommandParameter="{Binding .}"
+                                                NumberOfTapsRequired="1" />
+                                        </Frame.GestureRecognizers>
+                                    </Frame>
+                                </SwipeView>
                             </StackLayout>
                         </DataTemplate>
                     </CollectionView.ItemTemplate>
