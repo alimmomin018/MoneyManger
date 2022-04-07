@@ -1,5 +1,4 @@
-﻿using MoneyManger.Models;
-using MoneyManger.Services;
+﻿using MoneyManger.Services.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -10,7 +9,8 @@ namespace MoneyManger.ViewModels
 {
     public class BaseViewModel : INotifyPropertyChanged
     {
-        public IDataStore<Person> DataStore => DependencyService.Get<IDataStore<Person>>();
+        public IPersonDataStore PersonDataStore => DependencyService.Get<IPersonDataStore>();
+        public ITransactionDataStore TransactionDataStore => DependencyService.Get<ITransactionDataStore>();
 
         bool isBusy = false;
         public bool IsBusy

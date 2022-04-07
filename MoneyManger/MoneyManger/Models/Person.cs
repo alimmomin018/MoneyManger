@@ -1,5 +1,6 @@
 ﻿using SQLite;
-using System;
+using SQLiteNetExtensions.Attributes;
+using System.Linq;
 using System.Collections.Generic;
 
 namespace MoneyManger.Models
@@ -7,13 +8,43 @@ namespace MoneyManger.Models
     public class Person
     {
         [PrimaryKey, AutoIncrement]
-        public string Id { get; set; }
+        public int Id { get; set; }
         public string Name { get; set; }
         public bool IsActive { get; set; }
-        public List<Transaction> Transaction { get; set; }
+        [OneToMany(CascadeOperations = CascadeOperation.All)]
+        public List<Transaction> Transactions { get; set; }
         [Ignore]
-        public string LastUpdated { get; set; }
+        public string LastUpdated
+        {
+            get
+            {
+                var lastTransaction = Transactions?.LastOrDefault();
+                return lastTransaction != null? lastTransaction.Date.ToString("MMMM dd, yyyy"): "N/A";
+            }
+        }
         [Ignore]
-        public decimal Total { get; set; }
+        public decimal Total
+        {
+            get
+            {
+                decimal total = 0;
+                if(Transactions != null)
+                {
+                    foreach (var transaction in Transactions)
+                    {
+                        if (transaction.Type == TransactionType.Income)
+                        {
+                            total += total;
+                        }
+                        else if (transaction.Type == TransactionType.Expense)
+                        {
+                            total -= total;
+                        }
+                    }
+                }
+                
+                return total;
+            }
+        }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MoneyManger.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,9 +13,16 @@ namespace MoneyManger.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class HomePage : ContentPage
     {
+        HomePageViewModel vm;
         public HomePage()
         {
             InitializeComponent();
+            BindingContext = vm = new HomePageViewModel();
+        }
+
+        protected async override void OnAppearing()
+        {
+            await vm.LoadPersonsCommand.ExecuteAsync();
         }
     }
 }

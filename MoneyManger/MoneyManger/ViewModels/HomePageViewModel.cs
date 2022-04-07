@@ -1,4 +1,5 @@
-﻿using MoneyManger.Models;
+﻿using Acr.UserDialogs;
+using MoneyManger.Models;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -14,19 +15,19 @@ namespace MoneyManger.ViewModels
     {
         private Person _selectedPerson;
 
-        public ObservableCollection<Person> Persons { get; }
-        public Command LoadPersonsCommand { get; }
-        public AsyncCommand<Person> AddPersonCommand { get; }
-        public Command<Person> PersonTapped { get; }
+        public ObservableRangeCollection<Person> Persons { get; }
+        public AsyncCommand LoadPersonsCommand { get; }
+        public AsyncCommand AddPersonCommand { get; }
+        public AsyncCommand<Person> PersonTapped { get; }
 
         public HomePageViewModel()
         {
             Title = "Browse";
-            Persons = new ObservableCollection<Person>();
-            LoadPersonsCommand = new Command(async () => await ExecuteLoadPersonsCommand());
+            Persons = new ObservableRangeCollection<Person>();
+            LoadPersonsCommand = new AsyncCommand(() => ExecuteLoadPersonsCommand());
 
-            PersonTapped = new Command<Person>(OnPersonSelected);
-            AddPersonCommand = new AsyncCommand<Person>((person) => AddPersonAsync(person));
+            PersonTapped = new AsyncCommand<Person>((p) => OnPersonSelected(p));
+            AddPersonCommand = new AsyncCommand(() => AddPersonAsync());
         }
 
         async Task ExecuteLoadPersonsCommand()
@@ -35,16 +36,13 @@ namespace MoneyManger.ViewModels
 
             try
             {
+                var peoples = await PersonDataStore.GetAllPeopleAsync();
                 Persons.Clear();
-                var items = await DataStore.GetPeoplesAsync(true);
-                foreach (var item in items)
-                {
-                    Persons.Add(item);
-                }
+                Persons.AddRange(peoples);                
             }
             catch (Exception ex)
             {
-                Debug.WriteLine(ex);
+                throw new ApplicationException(ex.Message);
             }
             finally
             {
@@ -52,28 +50,38 @@ namespace MoneyManger.ViewModels
             }
         }
 
-        public void OnAppearing()
-        {
-            IsBusy = true;
-            SelectedItem = null;
-        }
-
         public Person SelectedItem
         {
             get => _selectedPerson;
-            set
+            set => SetProperty(ref _selectedPerson, value);
+        }
+
+        async Task AddPersonAsync()
+        {
+            var response = await UserDialogs.Instance.PromptAsync(
+                "What is the name of the entity you want to manage money for?",
+                "Entity Name",
+                "OK",
+                "Cancel",
+                "Name",
+                InputType.Default);
+
+            if(!string.IsNullOrWhiteSpace(response.Text))
             {
-                SetProperty(ref _selectedPerson, value);
-                OnPersonSelected(value);
+                var newPerson = new Person
+                {
+                    Name = response.Text
+                };
+
+                var success = await PersonDataStore.AddPersonAsync(newPerson);
+                if (success)
+                {
+                    UserDialogs.Instance.Toast("Entity added successfully");
+                }
             }
         }
 
-        async Task AddPersonAsync(Person obj)
-        {
-            //await Shell.Current.GoToAsync(nameof(NewItemPage));
-        }
-
-        async void OnPersonSelected(Person item)
+        async Task OnPersonSelected(Person item)
         {
             if (item == null)
                 return;
