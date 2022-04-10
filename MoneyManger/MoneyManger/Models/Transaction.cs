@@ -16,5 +16,7 @@ namespace MoneyManger.Models
         public string Description { get; set; }
         [ForeignKey(typeof(Person))]
         public int PersonId { get; set; }
+        [Ignore]
+        public bool IsIncome => Type == TransactionType.Income; 
     }
 }

@@ -46,5 +46,45 @@ namespace MoneyManger.Models
                 return total;
             }
         }
+        [Ignore]
+        public decimal TotalIncome
+        {
+            get
+            {
+                decimal total = 0;
+                if(Transactions != null)
+                {
+                    foreach (var transaction in Transactions)
+                    {
+                        if (transaction.Type == TransactionType.Income)
+                        {
+                            total += total;
+                        }
+                    }
+                }
+                
+                return total;
+            }
+        }
+        [Ignore]
+        public decimal TotalExpense
+        {
+            get
+            {
+                decimal total = 0;
+                if(Transactions != null)
+                {
+                    foreach (var transaction in Transactions)
+                    {
+                        if (transaction.Type == TransactionType.Expense)
+                        {
+                            total += total;
+                        }
+                    }
+                }
+                
+                return total;
+            }
+        }
     }
 }
