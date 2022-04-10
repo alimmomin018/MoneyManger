@@ -10,83 +10,48 @@ namespace MoneyManger.Services
 {
     public class TransactionDataStore : BaseDataStore, ITransactionDataStore
     {
-        public TransactionDataStore()
-        {
-
-        }
-
         public async Task<bool> AddTransactionAsync(Transaction transaction)
         {
-            try
-            {
-                await DbContext.InsertAsync(transaction);
-                return true;
-            }
-            catch (Exception ex)
-            {
-                throw new ApplicationException(ex.Message);
-            }
+            if(transaction == null)
+                throw new ApplicationException(Constants.TRANSACTION_ADD_FAILED);
+
+            await DbContext.InsertAsync(transaction);
+            return true;
         }
 
         public async Task<bool> DeleteTransactionAsync(int transactionId)
         {
-            try
-            {
-                if (transactionId <= 0)
-                    throw new ApplicationException("transactionId cannot be less then zero");
+            if (transactionId <= 0)
+                throw new ApplicationException(Constants.TRANSACTION_NON_ZERO_VALIDATION_FAILED);
 
-                await DbContext.Table<Transaction>().DeleteAsync(x => x.TransactionId == transactionId);
-                return true;
-            }
-            catch (Exception ex)
-            {
-                throw new ApplicationException(ex.Message);
-            }
+            await DbContext.Table<Transaction>().DeleteAsync(x => x.TransactionId == transactionId);
+            return true;
         }
 
-        public async Task<IEnumerable<Transaction>> GetAllTransactionsForPersonAsync(int personId)
+        public async Task<Person> GetAllTransactionsForPersonAsync(int personId)
         {
-            try
-            {
-                var person = await DbContext.GetWithChildrenAsync<Person>(personId); 
-                if(person?.Transactions == null)
-                    return Enumerable.Empty<Transaction>();
-                else 
-                    return person.Transactions;
-            }
-            catch (Exception ex)
-            {
-                throw new ApplicationException(ex.Message);
-            }
+            if (personId <= 0)
+                throw new ApplicationException(Constants.PERSON_NON_ZERO_VALIDATION_FAILED);
+
+            return await DbContext.GetWithChildrenAsync<Person>(personId);
         }
 
         public async Task<Transaction> GetTransactionAsync(int transactionId)
         {
-            try
-            {
-                var transaction = await DbContext.Table<Transaction>().FirstOrDefaultAsync(x => x.TransactionId == transactionId);
-                return transaction;
-            }
-            catch (Exception ex)
-            {
-                throw new ApplicationException(ex.Message);
-            }
+            if (transactionId <= 0)
+                throw new ApplicationException(Constants.TRANSACTION_NON_ZERO_VALIDATION_FAILED);
+
+            var transaction = await DbContext.Table<Transaction>().FirstOrDefaultAsync(x => x.TransactionId == transactionId);
+            return transaction;
         }
 
         public async Task<bool> UpdateTransactionAsync(Transaction transaction)
         {
-            try
-            {
-                if (transaction?.TransactionId <= 0)
-                    return false;
+            if (transaction?.TransactionId <= 0)
+                throw new ApplicationException(Constants.TRANSACTION_NON_ZERO_VALIDATION_FAILED);
 
-                await DbContext.UpdateAsync(transaction);
-                return true;
-            }
-            catch (Exception ex)
-            {
-                throw new ApplicationException(ex.Message);
-            }
+            await DbContext.UpdateAsync(transaction);
+            return true;
         }
     }
 }

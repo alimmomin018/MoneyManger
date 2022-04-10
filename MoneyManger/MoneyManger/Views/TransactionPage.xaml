@@ -2,7 +2,13 @@
 <ContentPage
     x:Class="MoneyManger.Views.TransactionPage"
     xmlns="http://xamarin.com/schemas/2014/forms"
-    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:fa="clr-namespace:PROOF.Resources"
+    xmlns:model="clr-namespace:MoneyManger.Models"
+    xmlns:vm="clr-namespace:MoneyManger.ViewModels"
+    x:Name="Layout"
+    Title="{Binding Title}"
+    x:DataType="vm:TransactionPageViewModel">
     <ContentPage.Content>
         <StackLayout>
             <Label

@@ -1,7 +1,4 @@
-﻿using MoneyManger.ViewModels;
-using MoneyManger.Views;
-using System;
-using System.Collections.Generic;
+﻿using MoneyManger.Views;
 using Xamarin.Forms;
 
 namespace MoneyManger
@@ -11,7 +8,15 @@ namespace MoneyManger
         public AppShell()
         {
             InitializeComponent();
+            RegisterRoutes();
+        }
+
+        private void RegisterRoutes()
+        {
+
             Routing.RegisterRoute(nameof(HomePage), typeof(HomePage));
+            Routing.RegisterRoute(nameof(TransactionPage), typeof(TransactionPage));
+            Routing.RegisterRoute(nameof(NewTransactionPage), typeof(NewTransactionPage));
         }
     }
 }
