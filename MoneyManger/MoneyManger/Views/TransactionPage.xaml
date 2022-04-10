@@ -6,15 +6,174 @@
     xmlns:fa="clr-namespace:PROOF.Resources"
     xmlns:model="clr-namespace:MoneyManger.Models"
     xmlns:vm="clr-namespace:MoneyManger.ViewModels"
+    xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
     x:Name="Layout"
-    Title="{Binding Title}"
+    Title="{Binding SelectedPerson.Name}"
     x:DataType="vm:TransactionPageViewModel">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <xct:InvertedBoolConverter x:Key="InvertedBoolConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Command="{Binding AddTransactionCommand}" IconImageSource="{FontImage FontFamily=Regular, Glyph={x:Static fa:FAIcons.PlusCircle}, Color=White, Size=25}" />
+    </ContentPage.ToolbarItems>
     <ContentPage.Content>
-        <StackLayout>
-            <Label
-                HorizontalOptions="CenterAndExpand"
-                Text="Welcome to Transaction page!"
-                VerticalOptions="CenterAndExpand" />
+        <StackLayout Style="{StaticResource BasePageStyle}">
+            <RefreshView
+                Command="{Binding LoadTransactionsCommand}"
+                IsRefreshing="{Binding IsBusy}"
+                Style="{StaticResource BaseRefreshView}">
+                <StackLayout>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <StackLayout Grid.Column="0" HorizontalOptions="Center">
+                            <Label HorizontalTextAlignment="Center" Text="Income" />
+                            <Label
+                                HorizontalTextAlignment="Center"
+                                Text="{Binding SelectedPerson.TotalIncome}"
+                                TextColor="{AppThemeBinding Dark={StaticResource IncomeTextColorDark},
+                                                            Light={StaticResource IncomeTextColor}}" />
+                        </StackLayout>
+                        <StackLayout Grid.Column="1" HorizontalOptions="Center">
+                            <Label HorizontalTextAlignment="Center" Text="Expense" />
+                            <Label
+                                HorizontalTextAlignment="Center"
+                                Text="{Binding SelectedPerson.TotalExpense}"
+                                TextColor="{AppThemeBinding Dark={StaticResource ExpenseTextColorDark},
+                                                            Light={StaticResource ExpenseTextColor}}" />
+                        </StackLayout>
+                        <StackLayout Grid.Column="2" HorizontalOptions="Center">
+                            <Label HorizontalTextAlignment="Center" Text="Total" />
+                            <Label HorizontalTextAlignment="Center" Text="{Binding SelectedPerson.Total}" />
+                        </StackLayout>
+                    </Grid>
+                    <CollectionView
+                        ItemsSource="{Binding Transactions}"
+                        SelectionMode="None"
+                        Style="{StaticResource BaseCollectionView}">
+                        <CollectionView.EmptyView>
+                            <StackLayout>
+                                <StackLayout HorizontalOptions="Center" VerticalOptions="CenterAndExpand">
+                                    <Label
+                                        FontFamily="Medium"
+                                        HorizontalOptions="CenterAndExpand"
+                                        Text="You have not added any transaction for this entity yet."
+                                        VerticalTextAlignment="Center" />
+                                    <Button
+                                        Command="{Binding AddTransactionCommand}"
+                                        Style="{StaticResource BaseOutlineButton}"
+                                        Text="Add Now" />
+                                </StackLayout>
+                            </StackLayout>
+                        </CollectionView.EmptyView>
+                        <CollectionView.ItemsLayout>
+                            <LinearItemsLayout ItemSpacing="5" Orientation="Vertical" />
+                        </CollectionView.ItemsLayout>
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate>
+                                <Frame Padding="0" Style="{StaticResource BaseCard}">
+                                    <SwipeView x:DataType="model:Transaction" Style="{StaticResource BaseSwipeView}">
+                                        <SwipeView.RightItems>
+                                            <SwipeItems>
+                                                <SwipeItemView Command="{Binding Path=BindingContext.DeleteTransactionCommand, Source={x:Reference Layout}}" CommandParameter="{Binding .}">
+                                                    <StackLayout Margin="10" VerticalOptions="Center">
+                                                        <Frame
+                                                            BackgroundColor="{AppThemeBinding Dark={StaticResource SystemRedDark},
+                                                                                              Light={StaticResource SystemRed}}"
+                                                            CornerRadius="20"
+                                                            HeightRequest="40"
+                                                            Style="{StaticResource BaseCard}"
+                                                            WidthRequest="40">
+                                                            <Image Margin="10">
+                                                                <Image.Source>
+                                                                    <FontImageSource
+                                                                        FontFamily="Solid"
+                                                                        Glyph="{x:Static fa:FAIcons.Trash}"
+                                                                        Size="20"
+                                                                        Color="{AppThemeBinding Dark={StaticResource TextColorDark},
+                                                                                                Light={StaticResource TextColor}}" />
+                                                                </Image.Source>
+                                                            </Image>
+                                                        </Frame>
+                                                    </StackLayout>
+                                                </SwipeItemView>
+                                                <SwipeItemView Command="{Binding Path=BindingContext.EditTransactionCommand, Source={x:Reference Layout}}" CommandParameter="{Binding .}">
+                                                    <StackLayout Margin="10" VerticalOptions="Center">
+                                                        <Frame
+                                                            BackgroundColor="{AppThemeBinding Dark={StaticResource SystemYellowDark},
+                                                                                              Light={StaticResource SystemYellow}}"
+                                                            CornerRadius="20"
+                                                            HeightRequest="40"
+                                                            Style="{StaticResource BaseCard}"
+                                                            WidthRequest="40">
+                                                            <Image Margin="10">
+                                                                <Image.Source>
+                                                                    <FontImageSource
+                                                                        FontFamily="Solid"
+                                                                        Glyph="{x:Static fa:FAIcons.Pencil}"
+                                                                        Size="20"
+                                                                        Color="{AppThemeBinding Dark={StaticResource TextColorDark},
+                                                                                                Light={StaticResource TextColor}}" />
+                                                                </Image.Source>
+                                                            </Image>
+                                                        </Frame>
+                                                    </StackLayout>
+                                                </SwipeItemView>
+                                            </SwipeItems>
+                                        </SwipeView.RightItems>
+                                        <Frame Style="{StaticResource BaseCard}">
+                                            <StackLayout Orientation="Horizontal" VerticalOptions="Center">
+                                                <StackLayout HorizontalOptions="StartAndExpand" VerticalOptions="Center">
+                                                    <Label
+                                                        LineBreakMode="NoWrap"
+                                                        Style="{StaticResource BaseTitleLabel}"
+                                                        Text="{Binding Notes}" />
+                                                    <Label
+                                                        IsVisible="{Binding IsIncome}"
+                                                        LineBreakMode="NoWrap"
+                                                        Style="{StaticResource BaseLabel}"
+                                                        Text="{Binding Date, StringFormat=f}" />
+                                                </StackLayout>
+                                                <StackLayout HorizontalOptions="End" VerticalOptions="Center">
+                                                    <Label
+                                                        IsVisible="{Binding IsIncome}"
+                                                        Style="{StaticResource BaseTitleLabel}"
+                                                        TextColor="{AppThemeBinding Dark={StaticResource IncomeTextColorDark},
+                                                                                    Light={StaticResource IncomeTextColor}}">
+                                                        <Label.FormattedText>
+                                                            <FormattedString>
+                                                                <Span Text="$ " />
+                                                                <Span Text="{Binding Amount}" />
+                                                            </FormattedString>
+                                                        </Label.FormattedText>
+                                                    </Label>
+                                                    <Label
+                                                        IsVisible="{Binding IsIncome, Converter={StaticResource InvertedBoolConverter}}"
+                                                        Style="{StaticResource BaseTitleLabel}"
+                                                        TextColor="{AppThemeBinding Dark={StaticResource ExpenseTextColorDark},
+                                                                                    Light={StaticResource ExpenseTextColor}}">
+                                                        <Label.FormattedText>
+                                                            <FormattedString>
+                                                                <Span Text="$ " />
+                                                                <Span Text="{Binding Amount}" />
+                                                            </FormattedString>
+                                                        </Label.FormattedText>
+                                                    </Label>
+                                                </StackLayout>
+                                            </StackLayout>
+                                        </Frame>
+                                    </SwipeView>
+                                </Frame>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+                </StackLayout>
+            </RefreshView>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

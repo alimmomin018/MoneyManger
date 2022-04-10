@@ -41,12 +41,6 @@ namespace MoneyManger.ViewModels
             finally { IsBusy = false; }
         }
 
-        public Person SelectedItem
-        {
-            get => _selectedPerson;
-            set => SetProperty(ref _selectedPerson, value);
-        }
-
         async Task AddPersonAsync()
         {
             var response = await UserDialogs.Instance.PromptAsync(
@@ -123,7 +117,7 @@ namespace MoneyManger.ViewModels
             }
             else
             {
-                await UserDialogs.Instance.ConfirmAsync(Constants.PERSON_ADD_EMPTY);
+                await UserDialogs.Instance.ConfirmAsync(Constants.PERSON_NAME_EMPTY);
             }
         }
         
@@ -169,7 +163,6 @@ namespace MoneyManger.ViewModels
 
         #region Commands and Bindings
 
-        private Person _selectedPerson;
         public ObservableRangeCollection<Person> Persons { get; }
         public AsyncCommand LoadPersonsCommand { get; }
         public AsyncCommand AddPersonCommand { get; }
