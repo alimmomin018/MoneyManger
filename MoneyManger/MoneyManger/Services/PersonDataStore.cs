@@ -8,86 +8,46 @@ namespace MoneyManger.Services
 {
     public class PersonDataStore : BaseDataStore, IPersonDataStore
     {
-        public PersonDataStore()
-        {
-
-        }
-
         public async Task<bool> AddPersonAsync(Person person)
         {
-            try
-            {
-                if (string.IsNullOrWhiteSpace(person.Name))
-                    throw new ApplicationException("Person Name cannot be null or empty");
+            if (string.IsNullOrWhiteSpace(person.Name))
+                throw new ApplicationException(Constants.PERSON_ADD_FAILED);
 
-                await DbContext.InsertAsync(person);
-                return true;
-            }
-            catch(Exception ex)
-            {
-                throw new ApplicationException(ex.Message);
-            }
+            await DbContext.InsertAsync(person);
+            return true;
         }
 
         public async Task<bool> DeletePersonAsync(int personId)
         {
-            try
-            {
-                if (personId <= 0)
-                    throw new ApplicationException("Person Id cannot be less then zero");
+            if (personId <= 0)
+                throw new ApplicationException(Constants.PERSON_NON_ZERO_VALIDATION_FAILED);
 
-                await DbContext.Table<Person>().DeleteAsync(x => x.Id == personId);
-                return true;
-            }
-            catch (Exception ex)
-            {
-                throw new ApplicationException(ex.Message);
-            }
+            await DbContext.Table<Person>().DeleteAsync(x => x.PersonId == personId);
+            return true;
         }
 
         public async Task<IEnumerable<Person>> GetAllPeopleAsync()
         {
-            try
-            {
-                var peoples = await DbContext.Table<Person>().Where(x => !x.IsActive).ToListAsync();
-                return peoples;
-            }
-            catch (Exception ex)
-            {
-                throw new ApplicationException(ex.Message);
-            }
+            var peoples = await DbContext.Table<Person>().Where(x => x.IsActive).ToListAsync();
+            return peoples;
         }
 
         public async Task<Person> GetPersonAsync(int personId)
         {
-            try
-            {
-                if(personId <= 0)
-                    throw new ApplicationException("Person Id cannot be less then zero");
+            if (personId <= 0)
+                throw new ApplicationException(Constants.PERSON_NON_ZERO_VALIDATION_FAILED);
 
-                var person = await DbContext.Table<Person>().FirstOrDefaultAsync(x => x.Id == personId);
-                return person;
-            }
-            catch (Exception ex)
-            {
-                throw new ApplicationException(ex.Message);
-            }
+            var person = await DbContext.Table<Person>().FirstOrDefaultAsync(x => x.PersonId == personId);
+            return person;
         }
 
         public async Task<bool> UpdatePersonAsync(Person person)
         {
-            try
-            {
-                if (person?.Id == null)
-                    return false;
+            if (person?.PersonId == null)
+                throw new ApplicationException(Constants.PERSON_NON_ZERO_VALIDATION_FAILED);
 
-                await DbContext.UpdateAsync(person);
-                return true;
-            }
-            catch (Exception ex)
-            {
-                throw new ApplicationException(ex.Message);
-            }
+            await DbContext.UpdateAsync(person);
+            return true;
         }
     }
 }

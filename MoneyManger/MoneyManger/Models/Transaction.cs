@@ -11,8 +11,10 @@ namespace MoneyManger.Models
         public DateTime Date { get; set; }
         public TransactionType Type { get; set; }
         public decimal Amount { get; set; }
-        [OneToMany(CascadeOperations = CascadeOperation.All)]
+        [OneToOne(CascadeOperations = CascadeOperation.All)]
         public Note Notes { get; set; }
         public string Description { get; set; }
+        [ForeignKey(typeof(Person))]
+        public int PersonId { get; set; }
     }
 }

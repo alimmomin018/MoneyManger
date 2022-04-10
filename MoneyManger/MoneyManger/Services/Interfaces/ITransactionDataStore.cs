@@ -10,6 +10,6 @@ namespace MoneyManger.Services.Interfaces
         Task<bool> UpdateTransactionAsync(Transaction transaction);
         Task<bool> DeleteTransactionAsync(int transactionId);
         Task<Transaction> GetTransactionAsync(int transactionId);
-        Task<IEnumerable<Transaction>> GetAllTransactionsForPersonAsync(int personId);
+        Task<Person> GetAllTransactionsForPersonAsync(int personId);
     }
 }
