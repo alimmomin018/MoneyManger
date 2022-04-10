@@ -65,6 +65,8 @@
   <ItemGroup>
     <Compile Include="Main.cs" />
     <Compile Include="AppDelegate.cs" />
+    <Compile Include="Renderers\ExtendedDatePickerRenderer.cs" />
+    <Compile Include="Renderers\ExtendedTimePickerRenderer.cs" />
     <Compile Include="Services\EnvironmentService.cs" />
     <None Include="Entitlements.plist" />
     <None Include="Info.plist" />

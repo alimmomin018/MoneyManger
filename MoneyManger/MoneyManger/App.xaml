@@ -108,6 +108,11 @@
                 <Setter Property="FontSize" Value="15" />
             </Style>
 
+            <Style x:Key="ErrorLabel" TargetType="Label">
+                <Setter Property="FontSize" Value="10" />
+                <Setter Property="TextColor" Value="{AppThemeBinding Dark={StaticResource SystemRedDark}, Light={StaticResource SystemRed}}" />
+            </Style>
+
             <Style x:Key="BaseButton" TargetType="Button">
                 <Setter Property="Visual" Value="Material" />
                 <Setter Property="TextColor" Value="{AppThemeBinding Dark={StaticResource TextColorDark}, Light={StaticResource TextColor}}" />
@@ -147,8 +152,32 @@
                 <Setter Property="BackgroundColor" Value="{AppThemeBinding Dark={StaticResource CardBackgroundDark}, Light={StaticResource CardBackground}}" />
             </Style>
 
+            <Style x:Key="BaseRadioButton" TargetType="RadioButton">
+                <Setter Property="Visual" Value="Material" />
+                <Setter Property="BackgroundColor" Value="{AppThemeBinding Dark={StaticResource WindowBackgroundColorDark}, Light={StaticResource WindowBackgroundColor}}" />
+            </Style>
+
             <Style x:Key="BaseSwipeView" TargetType="SwipeView">
                 <Setter Property="Visual" Value="Material" />
+                <Setter Property="BackgroundColor" Value="{AppThemeBinding Dark={StaticResource WindowBackgroundColorDark}, Light={StaticResource WindowBackgroundColor}}" />
+            </Style>
+
+            <Style x:Key="BaseDatePicker" TargetType="DatePicker">
+                <Setter Property="Visual" Value="Material" />
+                <Setter Property="TextColor" Value="{AppThemeBinding Dark={StaticResource TextColorDark}, Light={StaticResource TextColor}}" />
+                <Setter Property="BackgroundColor" Value="{AppThemeBinding Dark={StaticResource WindowBackgroundColorDark}, Light={StaticResource WindowBackgroundColor}}" />
+            </Style>
+
+            <Style x:Key="BaseTimePicker" TargetType="TimePicker">
+                <Setter Property="Visual" Value="Material" />
+                <Setter Property="TextColor" Value="{AppThemeBinding Dark={StaticResource TextColorDark}, Light={StaticResource TextColor}}" />
+                <Setter Property="BackgroundColor" Value="{AppThemeBinding Dark={StaticResource WindowBackgroundColorDark}, Light={StaticResource WindowBackgroundColor}}" />
+            </Style>
+
+            <Style x:Key="BaseEntry" TargetType="Entry">
+                <Setter Property="Visual" Value="Material" />
+                <Setter Property="TextColor" Value="{AppThemeBinding Dark={StaticResource TextColorDark}, Light={StaticResource TextColor}}" />
+                <Setter Property="PlaceholderColor" Value="{AppThemeBinding Dark={StaticResource TextColorDark}, Light={StaticResource TextColor}}" />
                 <Setter Property="BackgroundColor" Value="{AppThemeBinding Dark={StaticResource WindowBackgroundColorDark}, Light={StaticResource WindowBackgroundColor}}" />
             </Style>
 

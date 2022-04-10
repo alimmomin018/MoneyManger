@@ -2,13 +2,133 @@
 <ContentPage
     x:Class="MoneyManger.Views.NewTransactionPage"
     xmlns="http://xamarin.com/schemas/2014/forms"
-    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:fa="clr-namespace:PROOF.Resources"
+    xmlns:model="clr-namespace:MoneyManger.Models"
+    xmlns:renderers="clr-namespace:MoneyManger.Renderers"
+    xmlns:vm="clr-namespace:MoneyManger.ViewModels"
+    xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+    x:Name="Layout"
+    Title="{Binding Title}"
+    x:DataType="vm:NewTransactionPageViewModel">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <xct:InvertedBoolConverter x:Key="InvertedBoolConverter" />
+        </ResourceDictionary>
+        <ControlTemplate x:Key="RadioButtonTemplate">
+            <Frame
+                Padding="0"
+                BackgroundColor="{AppThemeBinding Dark={StaticResource CardBackgroundDark},
+                                                  Light={StaticResource CardBackground}}"
+                BorderColor="{StaticResource Primary}"
+                HasShadow="False"
+                HeightRequest="50"
+                HorizontalOptions="Start"
+                VerticalOptions="Start"
+                WidthRequest="100">
+                <Grid Margin="4" WidthRequest="100">
+                    <Grid
+                        HeightRequest="18"
+                        HorizontalOptions="End"
+                        VerticalOptions="Start"
+                        WidthRequest="18">
+                        <Ellipse
+                            Fill="White"
+                            HeightRequest="0"
+                            HorizontalOptions="Center"
+                            Stroke="{StaticResource Primary}"
+                            VerticalOptions="Center"
+                            WidthRequest="0" />
+                        <Ellipse
+                            x:Name="check"
+                            Fill="{StaticResource Primary}"
+                            HeightRequest="0"
+                            HorizontalOptions="Center"
+                            VerticalOptions="Center"
+                            WidthRequest="0" />
+                    </Grid>
+                    <ContentPresenter VerticalOptions="Center" />
+                </Grid>
+                <VisualStateManager.VisualStateGroups>
+                    <VisualStateGroupList>
+                        <VisualStateGroup x:Name="CheckedStates">
+                            <VisualState x:Name="Checked">
+                                <VisualState.Setters>
+                                    <Setter Property="BorderColor" Value="{StaticResource Primary}" />
+                                    <Setter TargetName="check" Property="Opacity" Value="1" />
+                                </VisualState.Setters>
+                            </VisualState>
+                            <VisualState x:Name="Unchecked">
+                                <VisualState.Setters>
+                                    <Setter Property="BackgroundColor" Value="{AppThemeBinding Dark={StaticResource CardBackgroundDark}, Light={StaticResource CardBackground}}" />
+                                    <Setter Property="BorderColor" Value="{StaticResource SystemGray}" />
+                                    <Setter TargetName="check" Property="Opacity" Value="0" />
+                                </VisualState.Setters>
+                            </VisualState>
+                        </VisualStateGroup>
+                    </VisualStateGroupList>
+                </VisualStateManager.VisualStateGroups>
+            </Frame>
+        </ControlTemplate>
+
+        <Style TargetType="RadioButton">
+            <Setter Property="ControlTemplate" Value="{StaticResource RadioButtonTemplate}" />
+        </Style>
+    </ContentPage.Resources>
     <ContentPage.Content>
-        <StackLayout>
-            <Label
-                HorizontalOptions="CenterAndExpand"
-                Text="Welcome to new TransactionPage!"
-                VerticalOptions="CenterAndExpand" />
+        <StackLayout Style="{StaticResource BasePageStyle}">
+            <ScrollView Style="{StaticResource BaseScrollView}">
+                <StackLayout Margin="5,0">
+                    <renderers:ExtendedDatePicker
+                        Date="{Binding SelectedDate}"
+                        Placeholder="Date"
+                        Style="{StaticResource BaseDatePicker}" />
+                    <renderers:ExtendedTimePicker
+                        Placeholder="Time"
+                        Style="{StaticResource BaseTimePicker}"
+                        Time="{Binding SelectedTime}" />
+                    <Entry
+                        Placeholder="Notes"
+                        Style="{StaticResource BaseEntry}"
+                        Text="{Binding Notes}" />
+                    <Label
+                        Padding="14,0"
+                        IsVisible="{Binding IsNotesValid, Converter={StaticResource InvertedBoolConverter}}"
+                        Style="{StaticResource ErrorLabel}"
+                        Text="Notes is required." />
+                    <StackLayout Margin="14,0">
+                        <Label Text="Transaction Type" />
+                        <StackLayout Orientation="Horizontal" RadioButtonGroup.SelectedValue="{Binding TransactionTypeSelection}">
+                            <RadioButton Value="Income">
+                                <RadioButton.Content>
+                                    <StackLayout>
+                                        <Label
+                                            HorizontalOptions="Center"
+                                            Text="Income"
+                                            VerticalOptions="Center" />
+                                    </StackLayout>
+                                </RadioButton.Content>
+                            </RadioButton>
+                            <RadioButton IsChecked="True" Value="Expense">
+                                <RadioButton.Content>
+                                    <StackLayout>
+                                        <Label
+                                            HorizontalOptions="Center"
+                                            Text="Expense"
+                                            VerticalOptions="Center" />
+                                    </StackLayout>
+                                </RadioButton.Content>
+                            </RadioButton>
+                        </StackLayout>
+                        <Button
+                            Margin="0,5"
+                            Padding="5"
+                            Command="{Binding SaveCommand}"
+                            Style="{StaticResource BaseButton}"
+                            Text="Save" />
+                    </StackLayout>
+                </StackLayout>
+            </ScrollView>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>
