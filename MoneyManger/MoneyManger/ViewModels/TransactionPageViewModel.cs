@@ -37,7 +37,7 @@ namespace MoneyManger.ViewModels
 
         private async Task AddTransactionAsync()
         {
-            await Shell.Current.GoToAsync($"{nameof(NewTransactionPage)}");
+            await Shell.Current.GoToAsync($"{nameof(NewTransactionPage)}?{nameof(NewTransactionPageViewModel.TransactionId)}=");
         }
 
         private async Task EditTransactionAsync(Transaction transaction)
