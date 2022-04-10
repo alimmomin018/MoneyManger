@@ -22,7 +22,7 @@ namespace MoneyManger.Services.Theme
     {
         public static void SetTheme()
         {
-            switch (1)
+            switch (2)
             {
                 //default
                 case 0:
