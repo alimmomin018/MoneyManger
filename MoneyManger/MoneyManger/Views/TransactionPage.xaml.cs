@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MoneyManger.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,9 +13,11 @@ namespace MoneyManger.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class TransactionPage : ContentPage
     {
+        TransactionPageViewModel vm;
         public TransactionPage()
         {
             InitializeComponent();
+            BindingContext = vm = new TransactionPageViewModel();
         }
     }
 }

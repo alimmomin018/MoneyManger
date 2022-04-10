@@ -128,7 +128,7 @@
                 <Setter Property="CornerRadius" Value="5" />
                 <Setter Property="BorderWidth" Value="1" />
                 <Setter Property="Visual" Value="Material" />
-                <Setter Property="BackgroundColor" Value="Transparent" />
+                <Setter Property="BackgroundColor" Value="{AppThemeBinding Dark={StaticResource WindowBackgroundColorDark}, Light={StaticResource WindowBackgroundColor}}" />
                 <Setter Property="BorderColor" Value="{AppThemeBinding Dark={StaticResource TextColorDark}, Light={StaticResource TextColor}}" />
                 <Setter Property="HorizontalOptions" Value="Center" />
             </Style>
@@ -139,6 +139,11 @@
                 <Setter Property="CornerRadius" Value="5" />
                 <Setter Property="Padding" Value="12" />
                 <Setter Property="BackgroundColor" Value="{AppThemeBinding Dark={StaticResource CardBackgroundDark}, Light={StaticResource CardBackground}}" />
+            </Style>
+
+            <Style x:Key="BaseSwipeView" TargetType="SwipeView">
+                <Setter Property="Visual" Value="Material" />
+                <Setter Property="BackgroundColor" Value="{AppThemeBinding Dark={StaticResource WindowBackgroundColorDark}, Light={StaticResource WindowBackgroundColor}}" />
             </Style>
 
         </ResourceDictionary>

@@ -10,7 +10,7 @@
     Title="Money Manager"
     x:DataType="vm:HomePageViewModel">
     <ContentPage.ToolbarItems>
-        <ToolbarItem Command="{Binding AddPersonCommand}" IconImageSource="{FontImage FontFamily=Regular, Glyph={x:Static fa:FAIcons.PlusCircle}, Color={AppThemeBinding Dark={StaticResource TextColorDark}, Light={StaticResource TextColor}}, Size=25}" />
+        <ToolbarItem Command="{Binding AddPersonCommand}" IconImageSource="{FontImage FontFamily=Regular, Glyph={x:Static fa:FAIcons.PlusCircle}, Color=White, Size=25}" />
     </ContentPage.ToolbarItems>
     <ContentPage.Content>
         <StackLayout Style="{StaticResource BasePageStyle}">
@@ -37,24 +37,51 @@
                             </StackLayout>
                         </StackLayout>
                     </CollectionView.EmptyView>
+                    <CollectionView.ItemsLayout>
+                        <LinearItemsLayout ItemSpacing="5" Orientation="Vertical" />
+                    </CollectionView.ItemsLayout>
                     <CollectionView.ItemTemplate>
                         <DataTemplate>
-                            <StackLayout>
-                                <SwipeView>
+                            <Frame Padding="0" Style="{StaticResource BaseCard}">
+                                <SwipeView x:DataType="model:Person" Style="{StaticResource BaseSwipeView}">
                                     <SwipeView.RightItems>
                                         <SwipeItems>
-                                            <SwipeItemView Command="{Binding Path=BindingContext.EditPersonCommand, Source={x:Reference Layout}}" CommandParameter="{Binding .}">
+                                            <SwipeItemView Command="{Binding Path=BindingContext.DeletePersonCommand, Source={x:Reference Layout}}" CommandParameter="{Binding .}">
                                                 <StackLayout Margin="10" VerticalOptions="Center">
                                                     <Frame
+                                                        BackgroundColor="{AppThemeBinding Dark={StaticResource SystemRedDark},
+                                                                                          Light={StaticResource SystemRed}}"
                                                         CornerRadius="20"
                                                         HeightRequest="40"
                                                         Style="{StaticResource BaseCard}"
                                                         WidthRequest="40">
-                                                        <Image Margin="7">
+                                                        <Image Margin="10">
                                                             <Image.Source>
                                                                 <FontImageSource
                                                                     FontFamily="Solid"
-                                                                    Glyph="{x:Static fa:FAIcons.Edit}"
+                                                                    Glyph="{x:Static fa:FAIcons.Trash}"
+                                                                    Size="20"
+                                                                    Color="{AppThemeBinding Dark={StaticResource TextColorDark},
+                                                                                            Light={StaticResource TextColor}}" />
+                                                            </Image.Source>
+                                                        </Image>
+                                                    </Frame>
+                                                </StackLayout>
+                                            </SwipeItemView>
+                                            <SwipeItemView Command="{Binding Path=BindingContext.EditPersonCommand, Source={x:Reference Layout}}" CommandParameter="{Binding .}">
+                                                <StackLayout Margin="10" VerticalOptions="Center">
+                                                    <Frame
+                                                        BackgroundColor="{AppThemeBinding Dark={StaticResource SystemYellowDark},
+                                                                                          Light={StaticResource SystemYellow}}"
+                                                        CornerRadius="20"
+                                                        HeightRequest="40"
+                                                        Style="{StaticResource BaseCard}"
+                                                        WidthRequest="40">
+                                                        <Image Margin="10">
+                                                            <Image.Source>
+                                                                <FontImageSource
+                                                                    FontFamily="Solid"
+                                                                    Glyph="{x:Static fa:FAIcons.Pencil}"
                                                                     Size="20"
                                                                     Color="{AppThemeBinding Dark={StaticResource TextColorDark},
                                                                                             Light={StaticResource TextColor}}" />
@@ -65,7 +92,7 @@
                                             </SwipeItemView>
                                         </SwipeItems>
                                     </SwipeView.RightItems>
-                                    <Frame x:DataType="model:Person" Style="{StaticResource BaseCard}">
+                                    <Frame Style="{StaticResource BaseCard}">
                                         <StackLayout Orientation="Horizontal" VerticalOptions="Center">
                                             <StackLayout HorizontalOptions="StartAndExpand" VerticalOptions="Center">
                                                 <Label
@@ -100,7 +127,7 @@
                                         </Frame.GestureRecognizers>
                                     </Frame>
                                 </SwipeView>
-                            </StackLayout>
+                            </Frame>
                         </DataTemplate>
                     </CollectionView.ItemTemplate>
                 </CollectionView>
