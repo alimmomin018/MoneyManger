@@ -41,6 +41,8 @@ namespace MoneyManger.ViewModels
             {
                 Title = "New Transaction";
                 IsNewTransaction = true;
+                SelectedDate = DateTime.Now.AddDays(-3);
+                SelectedTime = DateTime.Now.TimeOfDay;
             }
         }
 

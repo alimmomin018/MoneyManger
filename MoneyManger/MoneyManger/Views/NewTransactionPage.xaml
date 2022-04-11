@@ -3,6 +3,7 @@
     x:Class="MoneyManger.Views.NewTransactionPage"
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:controls="clr-namespace:MoneyManger.Controls"
     xmlns:fa="clr-namespace:PROOF.Resources"
     xmlns:model="clr-namespace:MoneyManger.Models"
     xmlns:renderers="clr-namespace:MoneyManger.Renderers"
@@ -17,12 +18,11 @@
         </ResourceDictionary>
         <ControlTemplate x:Key="RadioButtonTemplate">
             <Frame
-                Padding="0"
+                Padding="5"
                 BackgroundColor="{AppThemeBinding Dark={StaticResource CardBackgroundDark},
                                                   Light={StaticResource CardBackground}}"
                 BorderColor="{StaticResource Primary}"
                 HasShadow="False"
-                HeightRequest="50"
                 HorizontalOptions="Start"
                 VerticalOptions="Start"
                 WidthRequest="100">
@@ -70,7 +70,6 @@
                 </VisualStateManager.VisualStateGroups>
             </Frame>
         </ControlTemplate>
-
         <Style TargetType="RadioButton">
             <Setter Property="ControlTemplate" Value="{StaticResource RadioButtonTemplate}" />
         </Style>
@@ -79,26 +78,12 @@
         <StackLayout Style="{StaticResource BasePageStyle}">
             <ScrollView Style="{StaticResource BaseScrollView}">
                 <StackLayout Margin="5,0">
-                    <renderers:ExtendedDatePicker
-                        Date="{Binding SelectedDate}"
-                        Placeholder="Date"
-                        Style="{StaticResource BaseDatePicker}" />
-                    <renderers:ExtendedTimePicker
-                        Placeholder="Time"
-                        Style="{StaticResource BaseTimePicker}"
-                        Time="{Binding SelectedTime}" />
-                    <Entry
-                        Placeholder="Notes"
-                        Style="{StaticResource BaseEntry}"
-                        Text="{Binding Notes}" />
-                    <Label
-                        Padding="14,0"
-                        IsVisible="{Binding IsNotesValid, Converter={StaticResource InvertedBoolConverter}}"
-                        Style="{StaticResource ErrorLabel}"
-                        Text="Notes is required." />
                     <StackLayout Margin="14,0">
                         <Label Text="Transaction Type" />
-                        <StackLayout Orientation="Horizontal" RadioButtonGroup.SelectedValue="{Binding TransactionTypeSelection}">
+                        <StackLayout
+                            HorizontalOptions="Center"
+                            Orientation="Horizontal"
+                            RadioButtonGroup.SelectedValue="{Binding TransactionTypeSelection}">
                             <RadioButton Value="Income">
                                 <RadioButton.Content>
                                     <StackLayout>
@@ -120,13 +105,27 @@
                                 </RadioButton.Content>
                             </RadioButton>
                         </StackLayout>
-                        <Button
-                            Margin="0,5"
-                            Padding="5"
-                            Command="{Binding SaveCommand}"
-                            Style="{StaticResource BaseButton}"
-                            Text="Save" />
                     </StackLayout>
+                    <controls:CustomDatePicker CustomDate="{Binding SelectedDate}" PlaceHolder="Date" />
+                    <renderers:ExtendedTimePicker
+                        Placeholder="Time"
+                        Style="{StaticResource BaseTimePicker}"
+                        Time="{Binding SelectedTime}" />
+                    <Entry
+                        Placeholder="Notes"
+                        Style="{StaticResource BaseEntry}"
+                        Text="{Binding Notes}" />
+                    <Label
+                        Padding="14,0"
+                        IsVisible="{Binding IsNotesValid, Converter={StaticResource InvertedBoolConverter}}"
+                        Style="{StaticResource ErrorLabel}"
+                        Text="Notes is required." />
+                    <Button
+                        Margin="0,5"
+                        Padding="5"
+                        Command="{Binding SaveCommand}"
+                        Style="{StaticResource BaseButton}"
+                        Text="Save" />
                 </StackLayout>
             </ScrollView>
         </StackLayout>
