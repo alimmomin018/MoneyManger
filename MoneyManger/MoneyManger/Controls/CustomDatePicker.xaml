@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Grid
+    x:Class="MoneyManger.Controls.CustomDatePicker"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:renderers="clr-namespace:MoneyManger.Renderers"
+    RowSpacing="0">
+    <Grid.RowDefinitions>
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="Auto" />
+    </Grid.RowDefinitions>
+    <renderers:ExtendedDatePicker
+        x:Name="edpDate"
+        Grid.Row="1"
+        Date="{Binding CustomDate}"
+        Style="{StaticResource BaseDatePicker}" />
+    <Label
+        x:Name="edpLabel"
+        Grid.Row="0"
+        Grid.RowSpan="2"
+        Padding="15,2"
+        FontSize="12"
+        Text="{Binding PlaceHolder}" />
+    <Grid.GestureRecognizers>
+        <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped" />
+    </Grid.GestureRecognizers>
+</Grid>
