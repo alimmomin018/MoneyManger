@@ -17,6 +17,7 @@ namespace MoneyManger.ViewModels
 
             PersonTapped = new AsyncCommand<Person>((p) => OnPersonSelected(p));
             AddPersonCommand = new AsyncCommand(() => AddPersonAsync());
+            AddTransactionCommand = new AsyncCommand<Person>((p) => AddTransactionAsync(p));
             EditPersonCommand = new AsyncCommand<Person>((p) => EditPersonAsync(p));
             DeletePersonCommand = new AsyncCommand<Person>((p) => DeletePersonAsync(p));
         }
@@ -153,6 +154,11 @@ namespace MoneyManger.ViewModels
             }
         }
 
+        async Task AddTransactionAsync(Person person)
+        {
+            await Shell.Current.GoToAsync($"{nameof(NewTransactionPage)}?{nameof(NewTransactionPageViewModel.PersonId)}={person.PersonId}&{nameof(NewTransactionPageViewModel.TransactionId)}=");
+        }
+
         async Task OnPersonSelected(Person person)
         {
             if (person == null)
@@ -166,6 +172,7 @@ namespace MoneyManger.ViewModels
         public ObservableRangeCollection<Person> Persons { get; }
         public AsyncCommand LoadPersonsCommand { get; }
         public AsyncCommand AddPersonCommand { get; }
+        public AsyncCommand<Person> AddTransactionCommand { get; }
         public AsyncCommand<Person> EditPersonCommand { get; }
         public AsyncCommand<Person> DeletePersonCommand { get; }
         public AsyncCommand<Person> PersonTapped { get; }

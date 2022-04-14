@@ -41,10 +41,41 @@
                     <CollectionView.ItemsLayout>
                         <LinearItemsLayout ItemSpacing="5" Orientation="Vertical" />
                     </CollectionView.ItemsLayout>
+                    <CollectionView.Header>
+                        <StackLayout>
+                            <Label Style="{StaticResource BaseHeaderLabel}" Text="Entity" />
+                        </StackLayout>
+                    </CollectionView.Header>
                     <CollectionView.ItemTemplate>
                         <DataTemplate>
                             <Frame Padding="0" Style="{StaticResource BaseCard}">
                                 <SwipeView x:DataType="model:Person" Style="{StaticResource BaseSwipeView}">
+                                    <SwipeView.LeftItems>
+                                        <SwipeItems>
+                                            <SwipeItemView Command="{Binding Path=BindingContext.AddTransactionCommand, Source={x:Reference Layout}}" CommandParameter="{Binding .}">
+                                                <StackLayout Margin="10" VerticalOptions="Center">
+                                                    <Frame
+                                                        BackgroundColor="{AppThemeBinding Dark={StaticResource SystemGreenDark},
+                                                                                          Light={StaticResource SystemGreen}}"
+                                                        CornerRadius="20"
+                                                        HeightRequest="40"
+                                                        Style="{StaticResource BaseCard}"
+                                                        WidthRequest="40">
+                                                        <Image Margin="10">
+                                                            <Image.Source>
+                                                                <FontImageSource
+                                                                    FontFamily="Solid"
+                                                                    Glyph="{x:Static fa:FAIcons.DollarSign}"
+                                                                    Size="20"
+                                                                    Color="{AppThemeBinding Dark={StaticResource TextColorDark},
+                                                                                            Light={StaticResource TextColor}}" />
+                                                            </Image.Source>
+                                                        </Image>
+                                                    </Frame>
+                                                </StackLayout>
+                                            </SwipeItemView>
+                                        </SwipeItems>
+                                    </SwipeView.LeftItems>
                                     <SwipeView.RightItems>
                                         <SwipeItems>
                                             <SwipeItemView Command="{Binding Path=BindingContext.DeletePersonCommand, Source={x:Reference Layout}}" CommandParameter="{Binding .}">
