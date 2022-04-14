@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <StackLayout
-    x:Class="MoneyManger.Controls.CustomDatePicker"
+    x:Class="MoneyManger.Controls.CustomTimePicker"
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:renderers="clr-namespace:MoneyManger.Renderers"
@@ -10,11 +10,11 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-        <renderers:ExtendedDatePicker
-            x:Name="edpDate"
+        <renderers:ExtendedTimePicker
+            x:Name="edpTime"
             Grid.Row="1"
-            Date="{Binding CustomDate}"
-            Style="{StaticResource BaseDatePicker}" />
+            Style="{StaticResource BaseTimePicker}"
+            Time="{Binding CustomTime}" />
         <Label
             x:Name="edpLabel"
             Grid.Row="0"

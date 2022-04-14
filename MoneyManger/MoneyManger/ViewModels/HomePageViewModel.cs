@@ -102,7 +102,7 @@ namespace MoneyManger.ViewModels
                     var success = await PersonDataStore.UpdatePersonAsync(person);
                     if (success)
                     {
-                        UserDialogs.Instance.Toast(Constants.PERSON_UPDATED_SUCCESS);
+                        UserDialogs.Instance.Toast(Constants.PERSON_UPDATE_SUCCESS);
                         await ExecuteLoadPersonsCommand();
                     }
                 }
