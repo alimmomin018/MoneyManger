@@ -34,11 +34,11 @@ namespace MoneyManger.Models
                     {
                         if (transaction.Type == TransactionType.Income)
                         {
-                            total += total;
+                            total += transaction.Amount;
                         }
                         else if (transaction.Type == TransactionType.Expense)
                         {
-                            total -= total;
+                            total -= transaction.Amount;
                         }
                     }
                 }
@@ -58,7 +58,7 @@ namespace MoneyManger.Models
                     {
                         if (transaction.Type == TransactionType.Income)
                         {
-                            total += total;
+                            total += transaction.Amount;
                         }
                     }
                 }
@@ -78,7 +78,7 @@ namespace MoneyManger.Models
                     {
                         if (transaction.Type == TransactionType.Expense)
                         {
-                            total += total;
+                            total += transaction.Amount;
                         }
                     }
                 }

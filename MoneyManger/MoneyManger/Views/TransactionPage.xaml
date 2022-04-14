@@ -20,38 +20,38 @@
     </ContentPage.ToolbarItems>
     <ContentPage.Content>
         <StackLayout Style="{StaticResource BasePageStyle}">
-            <RefreshView
-                Command="{Binding LoadTransactionsCommand}"
-                IsRefreshing="{Binding IsBusy}"
-                Style="{StaticResource BaseRefreshView}">
-                <StackLayout>
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="*" />
-                        </Grid.ColumnDefinitions>
-                        <StackLayout Grid.Column="0" HorizontalOptions="Center">
-                            <Label HorizontalTextAlignment="Center" Text="Income" />
-                            <Label
-                                HorizontalTextAlignment="Center"
-                                Text="{Binding SelectedPerson.TotalIncome}"
-                                TextColor="{AppThemeBinding Dark={StaticResource IncomeTextColorDark},
-                                                            Light={StaticResource IncomeTextColor}}" />
-                        </StackLayout>
-                        <StackLayout Grid.Column="1" HorizontalOptions="Center">
-                            <Label HorizontalTextAlignment="Center" Text="Expense" />
-                            <Label
-                                HorizontalTextAlignment="Center"
-                                Text="{Binding SelectedPerson.TotalExpense}"
-                                TextColor="{AppThemeBinding Dark={StaticResource ExpenseTextColorDark},
-                                                            Light={StaticResource ExpenseTextColor}}" />
-                        </StackLayout>
-                        <StackLayout Grid.Column="2" HorizontalOptions="Center">
-                            <Label HorizontalTextAlignment="Center" Text="Total" />
-                            <Label HorizontalTextAlignment="Center" Text="{Binding SelectedPerson.Total}" />
-                        </StackLayout>
-                    </Grid>
+            <StackLayout>
+                <Grid Padding="0,5,0,10">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <StackLayout Grid.Column="0" HorizontalOptions="Center">
+                        <Label HorizontalTextAlignment="Center" Text="Income" />
+                        <Label
+                            HorizontalTextAlignment="Center"
+                            Text="{Binding SelectedPerson.TotalIncome}"
+                            TextColor="{AppThemeBinding Dark={StaticResource IncomeTextColorDark},
+                                                        Light={StaticResource IncomeTextColor}}" />
+                    </StackLayout>
+                    <StackLayout Grid.Column="1" HorizontalOptions="Center">
+                        <Label HorizontalTextAlignment="Center" Text="Expense" />
+                        <Label
+                            HorizontalTextAlignment="Center"
+                            Text="{Binding SelectedPerson.TotalExpense}"
+                            TextColor="{AppThemeBinding Dark={StaticResource ExpenseTextColorDark},
+                                                        Light={StaticResource ExpenseTextColor}}" />
+                    </StackLayout>
+                    <StackLayout Grid.Column="2" HorizontalOptions="Center">
+                        <Label HorizontalTextAlignment="Center" Text="Total" />
+                        <Label HorizontalTextAlignment="Center" Text="{Binding SelectedPerson.Total}" />
+                    </StackLayout>
+                </Grid>
+                <RefreshView
+                    Command="{Binding LoadTransactionsCommand}"
+                    IsRefreshing="{Binding IsBusy}"
+                    Style="{StaticResource BaseRefreshView}">
                     <CollectionView
                         ItemsSource="{Binding Transactions}"
                         SelectionMode="None"
@@ -75,6 +75,11 @@
                         <CollectionView.ItemsLayout>
                             <LinearItemsLayout ItemSpacing="5" Orientation="Vertical" />
                         </CollectionView.ItemsLayout>
+                        <CollectionView.Header>
+                            <StackLayout>
+                                <Label Style="{StaticResource BaseHeaderLabel}" Text="Transactions" />
+                            </StackLayout>
+                        </CollectionView.Header>
                         <CollectionView.ItemTemplate>
                             <DataTemplate>
                                 <Frame Padding="0" Style="{StaticResource BaseCard}">
@@ -133,11 +138,11 @@
                                                     <Label
                                                         LineBreakMode="NoWrap"
                                                         Style="{StaticResource BaseTitleLabel}"
-                                                        Text="{Binding Notes}" />
+                                                        Text="{Binding Notes.Notes}" />
                                                     <Label
                                                         LineBreakMode="NoWrap"
                                                         Style="{StaticResource BaseLabel}"
-                                                        Text="{Binding Date, StringFormat=d}" />
+                                                        Text="{Binding Date, StringFormat='{0:MMMM dd, yyyy hh:mm tt}'}" />
                                                 </StackLayout>
                                                 <StackLayout HorizontalOptions="End" VerticalOptions="Center">
                                                     <Label
@@ -172,8 +177,8 @@
                             </DataTemplate>
                         </CollectionView.ItemTemplate>
                     </CollectionView>
-                </StackLayout>
-            </RefreshView>
+                </RefreshView>
+            </StackLayout>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

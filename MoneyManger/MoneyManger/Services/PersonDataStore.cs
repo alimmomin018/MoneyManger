@@ -1,5 +1,6 @@
 ﻿using MoneyManger.Models;
 using MoneyManger.Services.Interfaces;
+using SQLiteNetExtensionsAsync.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -28,7 +29,7 @@ namespace MoneyManger.Services
 
         public async Task<IEnumerable<Person>> GetAllPeopleAsync()
         {
-            var peoples = await DbContext.Table<Person>().Where(x => x.IsActive).ToListAsync();
+            var peoples = await DbContext.GetAllWithChildrenAsync<Person>(x=> x.IsActive);
             return peoples;
         }
 

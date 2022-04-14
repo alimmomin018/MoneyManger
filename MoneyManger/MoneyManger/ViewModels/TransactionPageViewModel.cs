@@ -4,6 +4,7 @@ using MoneyManger.Views;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
@@ -79,11 +80,13 @@ namespace MoneyManger.ViewModels
         {
             try
             {
+                Transactions.Clear();
                 int personId = int.Parse(value);
                 SelectedPerson = await TransactionDataStore.GetAllTransactionsForPersonAsync(personId);
 
                 if (SelectedPerson.Transactions != null)
-                    Transactions.AddRange(SelectedPerson.Transactions);
+                    Transactions.AddRange(SelectedPerson.Transactions.OrderByDescending(t => t.Date));
+
             }
             catch (ApplicationException aex)
             {

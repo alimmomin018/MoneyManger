@@ -24,6 +24,7 @@ namespace MoneyManger.Services
 
             await DbContext.CreateTableAsync<Person>();
             await DbContext.CreateTableAsync<Transaction>();
+            await DbContext.CreateTableAsync<Note>();
         }
     }
 }

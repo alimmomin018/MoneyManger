@@ -1,4 +1,5 @@
 ﻿using SQLite;
+using SQLiteNetExtensions.Attributes;
 
 namespace MoneyManger.Models
 {
@@ -7,5 +8,7 @@ namespace MoneyManger.Models
         [PrimaryKey, AutoIncrement]
         public int NoteId { get; set; }
         public string Notes { get; set; }
+        [ForeignKey(typeof(Transaction))]
+        public int TransactionId { get; set; }
     }
 }
