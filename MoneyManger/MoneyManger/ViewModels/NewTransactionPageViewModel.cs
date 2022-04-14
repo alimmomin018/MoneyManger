@@ -18,14 +18,6 @@ namespace MoneyManger.ViewModels
         public NewTransactionPageViewModel()
         {
             SaveCommand = new AsyncCommand(() => ExecuteSaveCommand());
-            Init();
-        }
-
-        private void Init()
-        {
-            IsNotesValid = true;
-            IsAmountValid = true;
-            TransactionTypeSelection = TransactionType.Expense.ToString();
         }
 
         private async Task ExecuteSaveCommand()
@@ -66,8 +58,6 @@ namespace MoneyManger.ViewModels
                 }
                 else
                 {
-                    int.TryParse(TransactionId, out int transactionId);
-
                     var success = await TransactionDataStore.UpdateTransactionAsync(new Transaction
                     {
                         Type = type,
@@ -75,11 +65,13 @@ namespace MoneyManger.ViewModels
                         Date = SelectedDate + SelectedTime,
                         Notes = new Note
                         {
-                            Notes = Notes
+                            NoteId = SelectedTransaction.Notes.NoteId,
+                            Notes = Notes,
+                            TransactionId = SelectedTransaction.TransactionId
                         },
                         PersonId = personId,
                         Description = "",
-                        TransactionId = transactionId
+                        TransactionId = SelectedTransaction.TransactionId
                     });
 
                     if (success)
@@ -116,19 +108,41 @@ namespace MoneyManger.ViewModels
             return IsNotesValid && IsAmountValid;
         }
 
-        private void LoadTransactionId(string value)
+        private async void LoadTransactionId(string value)
         {
-            if (!string.IsNullOrWhiteSpace(value))
+            try
             {
-                Title = "Edit Transaction";
-                IsNewTransaction = false;
+                IsNotesValid = true;
+                IsAmountValid = true;
+
+                if (!string.IsNullOrWhiteSpace(value))
+                {
+                    Title = "Edit Transaction";
+                    IsNewTransaction = false;
+
+                    SelectedTransaction = await TransactionDataStore.GetTransactionAsync(int.Parse(value));
+                    SelectedDate = SelectedTransaction.Date.Date;
+                    SelectedTime = SelectedTransaction.Date.TimeOfDay;
+                    TransactionTypeSelection = SelectedTransaction.Type.ToString();
+                    Amount = SelectedTransaction.Amount.ToString();
+                    Notes = SelectedTransaction.Notes.Notes;
+                }
+                else
+                {
+                    Title = "New Transaction";
+                    IsNewTransaction = true;
+                    SelectedDate = DateTime.Now;
+                    SelectedTime = DateTime.Now.TimeOfDay;
+                    TransactionTypeSelection = TransactionType.Expense.ToString();
+                }
             }
-            else
+            catch (ApplicationException aex)
             {
-                Title = "New Transaction";
-                IsNewTransaction = true;
-                SelectedDate = DateTime.Now;
-                SelectedTime = DateTime.Now.TimeOfDay;
+                aex.ShowApplicationExceptionErrorDialog();
+            }
+            catch (Exception ex)
+            {
+                ex.ShowExceptionErrorDialog();
             }
         }
 
@@ -136,6 +150,7 @@ namespace MoneyManger.ViewModels
         public AsyncCommand SaveCommand { get; }
 
         private bool IsNewTransaction;
+        private Transaction SelectedTransaction;
         private string _transactionId;
         private string _personId;
         private DateTime _selectedDate;
