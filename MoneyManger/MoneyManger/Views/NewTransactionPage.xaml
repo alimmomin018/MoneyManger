@@ -79,10 +79,11 @@
             <ScrollView Style="{StaticResource BaseScrollView}">
                 <StackLayout Margin="5,0">
                     <StackLayout Margin="14,0">
-                        <Label Text="Transaction Type" />
                         <StackLayout
+                            Padding="0,10,0,0"
                             HorizontalOptions="Center"
                             Orientation="Horizontal"
+                            RadioButtonGroup.GroupName="TransactionType"
                             RadioButtonGroup.SelectedValue="{Binding TransactionTypeSelection}">
                             <RadioButton Value="Income">
                                 <RadioButton.Content>
@@ -107,11 +108,20 @@
                         </StackLayout>
                     </StackLayout>
                     <controls:CustomDatePicker CustomDate="{Binding SelectedDate}" PlaceHolder="Date" />
-                    <renderers:ExtendedTimePicker
-                        Placeholder="Time"
-                        Style="{StaticResource BaseTimePicker}"
-                        Time="{Binding SelectedTime}" />
+                    <controls:CustomTimePicker CustomTime="{Binding SelectedTime}" PlaceHolder="Time" />
                     <Entry
+                        Keyboard="Numeric"
+                        Placeholder="Amount"
+                        Style="{StaticResource BaseEntry}"
+                        Text="{Binding Amount}" />
+                    <Label
+                        Padding="14,0"
+                        IsVisible="{Binding IsAmountValid, Converter={StaticResource InvertedBoolConverter}}"
+                        Style="{StaticResource ErrorLabel}"
+                        Text="Amount is required." />
+                    <Entry
+                        IsTextPredictionEnabled="True"
+                        Keyboard="Text"
                         Placeholder="Notes"
                         Style="{StaticResource BaseEntry}"
                         Text="{Binding Notes}" />

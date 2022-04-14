@@ -1,7 +1,4 @@
 ﻿using MoneyManger.Services.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using Xamarin.Essentials;
 using Xamarin.Forms;
 
@@ -22,7 +19,7 @@ namespace MoneyManger.Services.Theme
     {
         public static void SetTheme()
         {
-            switch (1)
+            switch (2)
             {
                 //default
                 case 0:

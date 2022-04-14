@@ -28,6 +28,7 @@
                                 <Label
                                     FontFamily="Medium"
                                     HorizontalOptions="CenterAndExpand"
+                                    HorizontalTextAlignment="Center"
                                     Text="You have not added anyone yet."
                                     VerticalTextAlignment="Center" />
                                 <Button

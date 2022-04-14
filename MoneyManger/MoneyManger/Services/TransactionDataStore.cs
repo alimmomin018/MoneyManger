@@ -15,7 +15,7 @@ namespace MoneyManger.Services
             if(transaction == null)
                 throw new ApplicationException(Constants.TRANSACTION_ADD_FAILED);
 
-            await DbContext.InsertAsync(transaction);
+            await DbContext.InsertWithChildrenAsync(transaction);
             return true;
         }
 
@@ -41,7 +41,7 @@ namespace MoneyManger.Services
             if (transactionId <= 0)
                 throw new ApplicationException(Constants.TRANSACTION_NON_ZERO_VALIDATION_FAILED);
 
-            var transaction = await DbContext.Table<Transaction>().FirstOrDefaultAsync(x => x.TransactionId == transactionId);
+            var transaction = await DbContext.GetWithChildrenAsync<Transaction>(transactionId);
             return transaction;
         }
 
