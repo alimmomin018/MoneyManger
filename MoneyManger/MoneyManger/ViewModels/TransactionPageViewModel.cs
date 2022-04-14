@@ -37,12 +37,12 @@ namespace MoneyManger.ViewModels
 
         private async Task AddTransactionAsync()
         {
-            await Shell.Current.GoToAsync($"{nameof(NewTransactionPage)}?{nameof(NewTransactionPageViewModel.TransactionId)}=");
+            await Shell.Current.GoToAsync($"{nameof(NewTransactionPage)}?{nameof(NewTransactionPageViewModel.PersonId)}={PersonId}&{nameof(NewTransactionPageViewModel.TransactionId)}=");
         }
 
         private async Task EditTransactionAsync(Transaction transaction)
         {
-            await Shell.Current.GoToAsync($"{nameof(NewTransactionPage)}?{nameof(NewTransactionPageViewModel.TransactionId)}={transaction.TransactionId}");
+            await Shell.Current.GoToAsync($"{nameof(NewTransactionPage)}?{nameof(NewTransactionPageViewModel.PersonId)}={PersonId}&{nameof(NewTransactionPageViewModel.TransactionId)}={transaction.TransactionId}");
         }
         
         private async Task DeleteTransactionAsync(Transaction transaction)
@@ -81,6 +81,9 @@ namespace MoneyManger.ViewModels
             {
                 int personId = int.Parse(value);
                 SelectedPerson = await TransactionDataStore.GetAllTransactionsForPersonAsync(personId);
+
+                if (SelectedPerson.Transactions != null)
+                    Transactions.AddRange(SelectedPerson.Transactions);
             }
             catch (ApplicationException aex)
             {
