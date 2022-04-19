@@ -17,7 +17,7 @@ namespace MoneyManger.Views
 
         protected async override void OnAppearing()
         {
-            await vm.LoadPersonsCommand.ExecuteAsync();
+            await vm.LoadEntitiesCommand.ExecuteAsync();
         }
     }
 }

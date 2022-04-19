@@ -1,0 +1,54 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="MoneyManger.Views.CopyPasteTransactionPage"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:cells="clr-namespace:MoneyManger.Cells"
+    xmlns:fa="clr-namespace:PROOF.Resources"
+    xmlns:model="clr-namespace:MoneyManger.Models"
+    xmlns:vm="clr-namespace:MoneyManger.ViewModels"
+    xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+    x:Name="Layout"
+    Title="Copy to"
+    x:DataType="vm:CopyPasteTransactionPageViewModel">
+    <ContentPage.Content>
+        <StackLayout>
+            <CollectionView
+                ItemsSource="{Binding Entities}"
+                SelectionMode="None"
+                Style="{StaticResource BaseCollectionView}">
+                <CollectionView.ItemsLayout>
+                    <LinearItemsLayout ItemSpacing="5" Orientation="Vertical" />
+                </CollectionView.ItemsLayout>
+                <CollectionView.Header>
+                    <StackLayout>
+                        <Label Style="{StaticResource BaseHeaderLabel}" Text="Entity" />
+                    </StackLayout>
+                </CollectionView.Header>
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Frame
+                            Padding="0"
+                            x:DataType="model:Entity"
+                            Style="{StaticResource BaseCard}">
+                            <StackLayout>
+                                <CheckBox IsChecked="{Binding IsSelected}" Color="{StaticResource Primary}" />
+                                <cells:EntityCell />
+                            </StackLayout>
+                        </Frame>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+                <CollectionView.Footer>
+                    <StackLayout>
+                        <Button
+                            Margin="0,5"
+                            Padding="5"
+                            Command="{Binding CopyCommand}"
+                            Style="{StaticResource BaseButton}"
+                            Text="Copy" />
+                    </StackLayout>
+                </CollectionView.Footer>
+            </CollectionView>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

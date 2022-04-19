@@ -10,7 +10,7 @@
         public const string ERROR_LABEL = "Error";
         #endregion
 
-        #region Person Dialog Message
+        #region Entity Dialog Message
         public const string PERSON_DIALOG_PLACE_HOLDER = "Name";
 
         public const string PERSON_ADD_DIALOG_TITLE = "Add New Entity";
@@ -52,7 +52,7 @@
         #region Error and validation Message
         public const string PERSON_NAME_EMPTY = "Entity name can not be empty.";
         public const string PERSON_NULL = "Entity can not be null or empty.";
-        public const string PERSON_NON_ZERO_VALIDATION_FAILED = "PersonId cannot be less then or equal to zero.";
+        public const string PERSON_NON_ZERO_VALIDATION_FAILED = "EntityId cannot be less then or equal to zero.";
 
         public const string TRANSACTION_NULL = "Transaction can not be null or empty.";
         public const string TRANSACTION_NON_ZERO_VALIDATION_FAILED = "TransactionId cannot be less then or equal to zero.";

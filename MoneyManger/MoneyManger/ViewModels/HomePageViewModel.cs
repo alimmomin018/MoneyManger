@@ -12,24 +12,24 @@ namespace MoneyManger.ViewModels
     {
         public HomePageViewModel()
         {
-            Persons = new ObservableRangeCollection<Person>();
-            LoadPersonsCommand = new AsyncCommand(() => ExecuteLoadPersonsCommand());
+            Entities = new ObservableRangeCollection<Entity>();
+            LoadEntitiesCommand = new AsyncCommand(() => ExecuteLoadEntitiesCommand());
 
-            PersonTapped = new AsyncCommand<Person>((p) => OnPersonSelected(p));
-            AddPersonCommand = new AsyncCommand(() => AddPersonAsync());
-            AddTransactionCommand = new AsyncCommand<Person>((p) => AddTransactionAsync(p));
-            EditPersonCommand = new AsyncCommand<Person>((p) => EditPersonAsync(p));
-            DeletePersonCommand = new AsyncCommand<Person>((p) => DeletePersonAsync(p));
+            EntityTapped = new AsyncCommand<Entity>((p) => OnEntitySelected(p));
+            AddEntityCommand = new AsyncCommand(() => AddEntityAsync());
+            AddTransactionCommand = new AsyncCommand<Entity>((p) => AddTransactionAsync(p));
+            EditEntityCommand = new AsyncCommand<Entity>((p) => EditEntityAsync(p));
+            DeleteEntityCommand = new AsyncCommand<Entity>((p) => DeleteEntityAsync(p));
         }
 
-        async Task ExecuteLoadPersonsCommand()
+        async Task ExecuteLoadEntitiesCommand()
         {
             try
             {
                 IsBusy = true;
-                var peoples = await PersonDataStore.GetAllPeopleAsync();
-                Persons.Clear();
-                Persons.AddRange(peoples);                
+                var peoples = await EntityDataStore.GetAllEntityAsync();
+                Entities.Clear();
+                Entities.AddRange(peoples);                
             }
             catch(ApplicationException aex)
             {
@@ -42,7 +42,7 @@ namespace MoneyManger.ViewModels
             finally { IsBusy = false; }
         }
 
-        async Task AddPersonAsync()
+        async Task AddEntityAsync()
         {
             var response = await UserDialogs.Instance.PromptAsync(
                 Constants.PERSON_ADD_DIALOG_MESSAGE,
@@ -56,17 +56,17 @@ namespace MoneyManger.ViewModels
             {
                 try
                 {
-                    var newPerson = new Person
+                    var newEntity = new Entity
                     {
                         Name = response.Text,
                         IsActive = true
                     };
 
-                    var success = await PersonDataStore.AddPersonAsync(newPerson);
+                    var success = await EntityDataStore.AddEntityAsync(newEntity);
                     if (success)
                     {
                         UserDialogs.Instance.Toast(Constants.PERSON_ADD_SUCCESS);
-                        await ExecuteLoadPersonsCommand();
+                        await ExecuteLoadEntitiesCommand();
                     }
                 }
                 catch (ApplicationException aex)
@@ -80,7 +80,7 @@ namespace MoneyManger.ViewModels
             }
         }
         
-        async Task EditPersonAsync(Person person)
+        async Task EditEntityAsync(Entity person)
         {
             PromptConfig promptConfig = new PromptConfig
             {
@@ -100,11 +100,11 @@ namespace MoneyManger.ViewModels
                 {
                     person.Name = response.Text;
 
-                    var success = await PersonDataStore.UpdatePersonAsync(person);
+                    var success = await EntityDataStore.UpdateEntityAsync(person);
                     if (success)
                     {
                         UserDialogs.Instance.Toast(Constants.PERSON_UPDATE_SUCCESS);
-                        await ExecuteLoadPersonsCommand();
+                        await ExecuteLoadEntitiesCommand();
                     }
                 }
                 catch (ApplicationException aex)
@@ -122,7 +122,7 @@ namespace MoneyManger.ViewModels
             }
         }
         
-        async Task DeletePersonAsync(Person person)
+        async Task DeleteEntityAsync(Entity person)
         {
             var response = await UserDialogs.Instance.ConfirmAsync(
                 Constants.PERSON_DELETE_DIALOG_MESSAGE,
@@ -136,11 +136,11 @@ namespace MoneyManger.ViewModels
                 {
                     person.IsActive = false;
 
-                    var success = await PersonDataStore.UpdatePersonAsync(person);
+                    var success = await EntityDataStore.UpdateEntityAsync(person);
                     if (success)
                     {
                         UserDialogs.Instance.Toast(Constants.PERSON_DELETE_SUCCESS);
-                        await ExecuteLoadPersonsCommand();
+                        await ExecuteLoadEntitiesCommand();
                     }
                 }
                 catch (ApplicationException aex)
@@ -154,28 +154,28 @@ namespace MoneyManger.ViewModels
             }
         }
 
-        async Task AddTransactionAsync(Person person)
+        async Task AddTransactionAsync(Entity person)
         {
-            await Shell.Current.GoToAsync($"{nameof(NewTransactionPage)}?{nameof(NewTransactionPageViewModel.PersonId)}={person.PersonId}&{nameof(NewTransactionPageViewModel.TransactionId)}=");
+            await Shell.Current.GoToAsync($"{nameof(NewTransactionPage)}?{nameof(NewTransactionPageViewModel.EntityId)}={person.EntityId}&{nameof(NewTransactionPageViewModel.TransactionId)}=");
         }
 
-        async Task OnPersonSelected(Person person)
+        async Task OnEntitySelected(Entity person)
         {
             if (person == null)
                 return;
 
-            await Shell.Current.GoToAsync($"{nameof(TransactionPage)}?{nameof(TransactionPageViewModel.PersonId)}={person.PersonId}");
+            await Shell.Current.GoToAsync($"{nameof(TransactionPage)}?{nameof(TransactionPageViewModel.EntityId)}={person.EntityId}");
         }
 
         #region Commands and Bindings
 
-        public ObservableRangeCollection<Person> Persons { get; }
-        public AsyncCommand LoadPersonsCommand { get; }
-        public AsyncCommand AddPersonCommand { get; }
-        public AsyncCommand<Person> AddTransactionCommand { get; }
-        public AsyncCommand<Person> EditPersonCommand { get; }
-        public AsyncCommand<Person> DeletePersonCommand { get; }
-        public AsyncCommand<Person> PersonTapped { get; }
+        public ObservableRangeCollection<Entity> Entities { get; }
+        public AsyncCommand LoadEntitiesCommand { get; }
+        public AsyncCommand AddEntityCommand { get; }
+        public AsyncCommand<Entity> AddTransactionCommand { get; }
+        public AsyncCommand<Entity> EditEntityCommand { get; }
+        public AsyncCommand<Entity> DeleteEntityCommand { get; }
+        public AsyncCommand<Entity> EntityTapped { get; }
 
         #endregion
     }

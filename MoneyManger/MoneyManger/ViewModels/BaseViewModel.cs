@@ -9,7 +9,7 @@ namespace MoneyManger.ViewModels
 {
     public class BaseViewModel : INotifyPropertyChanged
     {
-        public IPersonDataStore PersonDataStore => DependencyService.Get<IPersonDataStore>();
+        public IEntityDataStore EntityDataStore => DependencyService.Get<IEntityDataStore>();
         public ITransactionDataStore TransactionDataStore => DependencyService.Get<ITransactionDataStore>();
 
         bool isBusy = false;
