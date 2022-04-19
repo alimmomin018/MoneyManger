@@ -2,7 +2,10 @@
 using MoneyManger.Models;
 using MoneyManger.Views;
 using System;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
+using System.Windows.Input;
 using Xamarin.CommunityToolkit.ObjectModel;
 using Xamarin.Forms;
 
@@ -12,6 +15,7 @@ namespace MoneyManger.ViewModels
     {
         public HomePageViewModel()
         {
+            SearchCommand = CommandFactory.Create<string>(SearchAsync);
             Entities = new ObservableRangeCollection<Entity>();
             LoadEntitiesCommand = new AsyncCommand(() => ExecuteLoadEntitiesCommand());
 
@@ -29,7 +33,20 @@ namespace MoneyManger.ViewModels
                 IsBusy = true;
                 var peoples = await EntityDataStore.GetAllEntityAsync();
                 Entities.Clear();
-                Entities.AddRange(peoples);                
+                if (string.IsNullOrWhiteSpace(SearchText))
+                {
+                    Entities.AddRange(peoples);
+                }
+                else
+                {
+                    foreach (var item in peoples)
+                    {
+                        if (item.Name.ToLower().Contains(SearchText.ToLower()))
+                        {
+                            Entities.Add(item);
+                        }
+                    }
+                }              
             }
             catch(ApplicationException aex)
             {
@@ -40,6 +57,11 @@ namespace MoneyManger.ViewModels
                 ex.ShowExceptionErrorDialogAndHideLoading();
             }
             finally { IsBusy = false; }
+        }
+
+        async Task SearchAsync(string searchText)
+        {
+            await ExecuteLoadEntitiesCommand();
         }
 
         async Task AddEntityAsync()
@@ -169,13 +191,17 @@ namespace MoneyManger.ViewModels
 
         #region Commands and Bindings
 
+        private string _searchText;
         public ObservableRangeCollection<Entity> Entities { get; }
+        public ICommand SearchCommand { get; }
         public AsyncCommand LoadEntitiesCommand { get; }
         public AsyncCommand AddEntityCommand { get; }
         public AsyncCommand<Entity> AddTransactionCommand { get; }
         public AsyncCommand<Entity> EditEntityCommand { get; }
         public AsyncCommand<Entity> DeleteEntityCommand { get; }
         public AsyncCommand<Entity> EntityTapped { get; }
+
+        public string SearchText { get => _searchText; set => SetProperty(ref _searchText, value); }
 
         #endregion
     }
