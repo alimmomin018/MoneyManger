@@ -17,6 +17,7 @@ namespace MoneyManger
             Routing.RegisterRoute(nameof(HomePage), typeof(HomePage));
             Routing.RegisterRoute(nameof(TransactionPage), typeof(TransactionPage));
             Routing.RegisterRoute(nameof(NewTransactionPage), typeof(NewTransactionPage));
+            Routing.RegisterRoute(nameof(CopyPasteTransactionPage), typeof(CopyPasteTransactionPage));
         }
     }
 }

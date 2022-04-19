@@ -84,6 +84,32 @@
                             <DataTemplate>
                                 <Frame Padding="0" Style="{StaticResource BaseCard}">
                                     <SwipeView x:DataType="model:Transaction" Style="{StaticResource BaseSwipeView}">
+                                        <SwipeView.LeftItems>
+                                            <SwipeItems>
+                                                <SwipeItemView Command="{Binding Path=BindingContext.CopyTransactionCommand, Source={x:Reference Layout}}" CommandParameter="{Binding .}">
+                                                    <StackLayout Margin="10" VerticalOptions="Center">
+                                                        <Frame
+                                                            BackgroundColor="{AppThemeBinding Dark={StaticResource SystemGreenDark},
+                                                                                              Light={StaticResource SystemGreen}}"
+                                                            CornerRadius="20"
+                                                            HeightRequest="40"
+                                                            Style="{StaticResource BaseCard}"
+                                                            WidthRequest="40">
+                                                            <Image Margin="10">
+                                                                <Image.Source>
+                                                                    <FontImageSource
+                                                                        FontFamily="Solid"
+                                                                        Glyph="{x:Static fa:FAIcons.Copy}"
+                                                                        Size="20"
+                                                                        Color="{AppThemeBinding Dark={StaticResource TextColorDark},
+                                                                                                Light={StaticResource TextColor}}" />
+                                                                </Image.Source>
+                                                            </Image>
+                                                        </Frame>
+                                                    </StackLayout>
+                                                </SwipeItemView>
+                                            </SwipeItems>
+                                        </SwipeView.LeftItems>
                                         <SwipeView.RightItems>
                                             <SwipeItems>
                                                 <SwipeItemView Command="{Binding Path=BindingContext.DeleteTransactionCommand, Source={x:Reference Layout}}" CommandParameter="{Binding .}">

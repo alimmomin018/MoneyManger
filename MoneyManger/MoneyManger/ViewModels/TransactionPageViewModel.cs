@@ -21,9 +21,10 @@ namespace MoneyManger.ViewModels
             Transactions = new ObservableRangeCollection<Transaction>();
 
             LoadTransactionsCommand = new AsyncCommand(() => ExecuteLoadTransactionsCommand());
+            CopyTransactionCommand = new AsyncCommand<Transaction>((t) => CopyTransactionAsync(t));
             AddTransactionCommand = new AsyncCommand(() => AddTransactionAsync());
-            EditTransactionCommand = new AsyncCommand<Transaction>((p) => EditTransactionAsync(p));
-            DeleteTransactionCommand = new AsyncCommand<Transaction>((p) => DeleteTransactionAsync(p));
+            EditTransactionCommand = new AsyncCommand<Transaction>((t) => EditTransactionAsync(t));
+            DeleteTransactionCommand = new AsyncCommand<Transaction>((t) => DeleteTransactionAsync(t));
         }
 
         private async Task ExecuteLoadTransactionsCommand()
@@ -36,6 +37,11 @@ namespace MoneyManger.ViewModels
             IsBusy = false;
         }
 
+        private async Task CopyTransactionAsync(Transaction transaction)
+        {
+            await Shell.Current.GoToAsync($"{nameof(CopyPasteTransactionPage)}?{nameof(CopyPasteTransactionPageViewModel.TransactionId)}={transaction.TransactionId}");
+        }
+        
         private async Task AddTransactionAsync()
         {
             await Shell.Current.GoToAsync($"{nameof(NewTransactionPage)}?{nameof(NewTransactionPageViewModel.EntityId)}={EntityId}&{nameof(NewTransactionPageViewModel.TransactionId)}=");
@@ -102,6 +108,7 @@ namespace MoneyManger.ViewModels
 
         public ObservableRangeCollection<Transaction> Transactions { get; }
         public AsyncCommand LoadTransactionsCommand { get; }
+        public AsyncCommand<Transaction> CopyTransactionCommand { get; }
         public AsyncCommand AddTransactionCommand { get; }
         public AsyncCommand<Transaction> EditTransactionCommand { get; }
         public AsyncCommand<Transaction> DeleteTransactionCommand { get; }

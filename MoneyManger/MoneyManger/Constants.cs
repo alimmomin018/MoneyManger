@@ -30,7 +30,6 @@
         public const string PERSON_DELETE_FAILED = "Entity deleted failed.";
         #endregion
 
-
         #region Transaction Dialog Message
         public const string TRANSACTION_ADD_DIALOG_TITLE = "Add New Transaction";
         public const string TRANSACTION_ADD_DIALOG_MESSAGE = "What is the name of the entity you want to manage money for?";
@@ -49,6 +48,13 @@
         public const string TRANSACTION_DELETE_FAILED = "Transaction deleted failed.";
         #endregion
 
+        #region Copy Transaction Message
+        public const string COPY_CONFIRM_MESSAGE = "Are you sure you want to copy this transaction to ";
+        public const string COPY_CONFIRM_TITLE = "Copy Transaction";
+        
+        public const string COPY_TRANSACTION_SUCCESS = "Transaction copied successfully.";
+        #endregion
+
         #region Error and validation Message
         public const string PERSON_NAME_EMPTY = "Entity name can not be empty.";
         public const string PERSON_NULL = "Entity can not be null or empty.";
@@ -56,6 +62,8 @@
 
         public const string TRANSACTION_NULL = "Transaction can not be null or empty.";
         public const string TRANSACTION_NON_ZERO_VALIDATION_FAILED = "TransactionId cannot be less then or equal to zero.";
+
+        public const string COPY_NOT_NULL_OR_EMPTY_SELECTION = "Please select at least one entity to copy.";
         #endregion
     }
 }

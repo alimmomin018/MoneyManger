@@ -12,7 +12,7 @@
     Title="Copy to"
     x:DataType="vm:CopyPasteTransactionPageViewModel">
     <ContentPage.Content>
-        <StackLayout>
+        <StackLayout Style="{StaticResource BasePageStyle}">
             <CollectionView
                 ItemsSource="{Binding Entities}"
                 SelectionMode="None"
@@ -31,9 +31,9 @@
                             Padding="0"
                             x:DataType="model:Entity"
                             Style="{StaticResource BaseCard}">
-                            <StackLayout>
+                            <StackLayout Padding="5,13,0,13" Orientation="Horizontal">
                                 <CheckBox IsChecked="{Binding IsSelected}" Color="{StaticResource Primary}" />
-                                <cells:EntityCell />
+                                <cells:EntityCell HorizontalOptions="FillAndExpand" />
                             </StackLayout>
                         </Frame>
                     </DataTemplate>
