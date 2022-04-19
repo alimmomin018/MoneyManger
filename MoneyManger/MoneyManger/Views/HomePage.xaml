@@ -39,14 +39,41 @@
                             </StackLayout>
                         </StackLayout>
                     </CollectionView.EmptyView>
+                    <CollectionView.Header>
+                        <StackLayout>
+                            <StackLayout Orientation="Horizontal">
+                                <Label
+                                    HorizontalOptions="FillAndExpand"
+                                    Style="{StaticResource BaseHeaderLabel}"
+                                    Text="Entity" />
+                                <Image HorizontalOptions="End">
+                                    <Image.Source>
+                                        <FontImageSource
+                                            FontFamily="Regular"
+                                            Glyph="{x:Static fa:FAIcons.Search}"
+                                            Size="20"
+                                            Color="{AppThemeBinding Dark={StaticResource TextColorDark},
+                                                                    Light={StaticResource TextColor}}" />
+                                    </Image.Source>
+                                    <Image.GestureRecognizers>
+                                        <TapGestureRecognizer Tapped="SearchIcon_Tapped" />
+                                    </Image.GestureRecognizers>
+                                </Image>
+                            </StackLayout>
+                            <SearchBar
+                                x:Name="sbEntity"
+                                IsVisible="False"
+                                Placeholder="Search Entity"
+                                PlaceholderColor="{AppThemeBinding Dark={StaticResource TextColorDark},
+                                                                   Light={StaticResource TextColor}}"
+                                TextColor="{AppThemeBinding Dark={StaticResource TextColorDark},
+                                                            Light={StaticResource TextColor}}"
+                                TranslationY="-50" />
+                        </StackLayout>
+                    </CollectionView.Header>
                     <CollectionView.ItemsLayout>
                         <LinearItemsLayout ItemSpacing="5" Orientation="Vertical" />
                     </CollectionView.ItemsLayout>
-                    <CollectionView.Header>
-                        <StackLayout>
-                            <Label Style="{StaticResource BaseHeaderLabel}" Text="Entity" />
-                        </StackLayout>
-                    </CollectionView.Header>
                     <CollectionView.ItemTemplate>
                         <DataTemplate>
                             <Frame Padding="0" Style="{StaticResource BaseCard}">
