@@ -7,6 +7,7 @@
     xmlns:fa="clr-namespace:PROOF.Resources"
     xmlns:model="clr-namespace:MoneyManger.Models"
     xmlns:vm="clr-namespace:MoneyManger.ViewModels"
+    xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
     x:Name="Layout"
     Title="Money Manager"
     x:DataType="vm:HomePageViewModel">
@@ -66,9 +67,17 @@
                                 Placeholder="Search Entity"
                                 PlaceholderColor="{AppThemeBinding Dark={StaticResource TextColorDark},
                                                                    Light={StaticResource TextColor}}"
+                                Text="{Binding SearchText}"
                                 TextColor="{AppThemeBinding Dark={StaticResource TextColorDark},
                                                             Light={StaticResource TextColor}}"
-                                TranslationY="-50" />
+                                TranslationY="-50">
+                                <SearchBar.Behaviors>
+                                    <xct:UserStoppedTypingBehavior
+                                        Command="{Binding SearchCommand}"
+                                        ShouldDismissKeyboardAutomatically="True"
+                                        StoppedTypingTimeThreshold="1000" />
+                                </SearchBar.Behaviors>
+                            </SearchBar>
                         </StackLayout>
                     </CollectionView.Header>
                     <CollectionView.ItemsLayout>
