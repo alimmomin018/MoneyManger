@@ -13,7 +13,7 @@ using Xamarin.Forms;
 
 namespace MoneyManger.ViewModels
 {
-    [QueryProperty(nameof(PersonId), nameof(PersonId))]
+    [QueryProperty(nameof(EntityId), nameof(EntityId))]
     public class TransactionPageViewModel : BaseViewModel
     {
         public TransactionPageViewModel()
@@ -29,21 +29,21 @@ namespace MoneyManger.ViewModels
         private async Task ExecuteLoadTransactionsCommand()
         {
             IsBusy = true;
-            if(PersonId != null)
+            if(EntityId != null)
             {
-                LoadPersonId(PersonId);
+                LoadEntityId(EntityId);
             }
             IsBusy = false;
         }
 
         private async Task AddTransactionAsync()
         {
-            await Shell.Current.GoToAsync($"{nameof(NewTransactionPage)}?{nameof(NewTransactionPageViewModel.PersonId)}={PersonId}&{nameof(NewTransactionPageViewModel.TransactionId)}=");
+            await Shell.Current.GoToAsync($"{nameof(NewTransactionPage)}?{nameof(NewTransactionPageViewModel.EntityId)}={EntityId}&{nameof(NewTransactionPageViewModel.TransactionId)}=");
         }
 
         private async Task EditTransactionAsync(Transaction transaction)
         {
-            await Shell.Current.GoToAsync($"{nameof(NewTransactionPage)}?{nameof(NewTransactionPageViewModel.PersonId)}={PersonId}&{nameof(NewTransactionPageViewModel.TransactionId)}={transaction.TransactionId}");
+            await Shell.Current.GoToAsync($"{nameof(NewTransactionPage)}?{nameof(NewTransactionPageViewModel.EntityId)}={EntityId}&{nameof(NewTransactionPageViewModel.TransactionId)}={transaction.TransactionId}");
         }
         
         private async Task DeleteTransactionAsync(Transaction transaction)
@@ -62,7 +62,7 @@ namespace MoneyManger.ViewModels
                     if (success)
                     {
                         UserDialogs.Instance.Toast(Constants.TRANSACTION_DELETE_SUCCESS);
-                        LoadPersonId(transaction.PersonId.ToString());
+                        LoadEntityId(transaction.EntityId.ToString());
                     }
                 }
                 catch (ApplicationException aex)
@@ -76,16 +76,16 @@ namespace MoneyManger.ViewModels
             }
         }
 
-        private async void LoadPersonId(string value)
+        private async void LoadEntityId(string value)
         {
             try
             {
                 Transactions.Clear();
                 int personId = int.Parse(value);
-                SelectedPerson = await TransactionDataStore.GetAllTransactionsForPersonAsync(personId);
+                SelectedEntity = await TransactionDataStore.GetAllTransactionsForEntityAsync(personId);
 
-                if (SelectedPerson.Transactions != null)
-                    Transactions.AddRange(SelectedPerson.Transactions.OrderByDescending(t => t.Date));
+                if (SelectedEntity.Transactions != null)
+                    Transactions.AddRange(SelectedEntity.Transactions.OrderByDescending(t => t.Date));
 
             }
             catch (ApplicationException aex)
@@ -106,21 +106,21 @@ namespace MoneyManger.ViewModels
         public AsyncCommand<Transaction> EditTransactionCommand { get; }
         public AsyncCommand<Transaction> DeleteTransactionCommand { get; }
 
-        private Person _selectedPerson;
+        private Entity _selectedEntity;
         private string _personId;
         private decimal _totalIncome;
         private decimal _totalExpense;
-        public string PersonId
+        public string EntityId
         {
             get => _personId;
             set
             {
                 _personId = value;
-                LoadPersonId(value);
+                LoadEntityId(value);
             }
         }
 
-        public Person SelectedPerson { get => _selectedPerson; set => SetProperty(ref _selectedPerson, value); }
+        public Entity SelectedEntity { get => _selectedEntity; set => SetProperty(ref _selectedEntity, value); }
 
         #endregion
     }

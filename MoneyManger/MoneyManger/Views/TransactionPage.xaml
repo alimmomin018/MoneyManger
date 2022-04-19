@@ -8,7 +8,7 @@
     xmlns:vm="clr-namespace:MoneyManger.ViewModels"
     xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
     x:Name="Layout"
-    Title="{Binding SelectedPerson.Name}"
+    Title="{Binding SelectedEntity.Name}"
     x:DataType="vm:TransactionPageViewModel">
     <ContentPage.Resources>
         <ResourceDictionary>
@@ -31,7 +31,7 @@
                         <Label HorizontalTextAlignment="Center" Text="Income" />
                         <Label
                             HorizontalTextAlignment="Center"
-                            Text="{Binding SelectedPerson.TotalIncome}"
+                            Text="{Binding SelectedEntity.TotalIncome}"
                             TextColor="{AppThemeBinding Dark={StaticResource IncomeTextColorDark},
                                                         Light={StaticResource IncomeTextColor}}" />
                     </StackLayout>
@@ -39,13 +39,13 @@
                         <Label HorizontalTextAlignment="Center" Text="Expense" />
                         <Label
                             HorizontalTextAlignment="Center"
-                            Text="{Binding SelectedPerson.TotalExpense}"
+                            Text="{Binding SelectedEntity.TotalExpense}"
                             TextColor="{AppThemeBinding Dark={StaticResource ExpenseTextColorDark},
                                                         Light={StaticResource ExpenseTextColor}}" />
                     </StackLayout>
                     <StackLayout Grid.Column="2" HorizontalOptions="Center">
                         <Label HorizontalTextAlignment="Center" Text="Total" />
-                        <Label HorizontalTextAlignment="Center" Text="{Binding SelectedPerson.Total}" />
+                        <Label HorizontalTextAlignment="Center" Text="{Binding SelectedEntity.Total}" />
                     </StackLayout>
                 </Grid>
                 <RefreshView

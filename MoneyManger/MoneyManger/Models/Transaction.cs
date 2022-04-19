@@ -14,8 +14,8 @@ namespace MoneyManger.Models
         [OneToOne(CascadeOperations = CascadeOperation.All)]
         public Note Notes { get; set; }
         public string Description { get; set; }
-        [ForeignKey(typeof(Person))]
-        public int PersonId { get; set; }
+        [ForeignKey(typeof(Entity))]
+        public int EntityId { get; set; }
         [Ignore]
         public bool IsIncome => Type == TransactionType.Income; 
     }

@@ -21,7 +21,7 @@ namespace MoneyManger
 
         private void RegisterDependencyService()
         {
-            DependencyService.Register<PersonDataStore>();
+            DependencyService.Register<EntityDataStore>();
             DependencyService.Register<TransactionDataStore>();
         }
 

@@ -11,7 +11,7 @@ using Xamarin.Forms;
 
 namespace MoneyManger.ViewModels
 {
-    [QueryProperty(nameof(PersonId), nameof(PersonId))]
+    [QueryProperty(nameof(EntityId), nameof(EntityId))]
     [QueryProperty(nameof(TransactionId), nameof(TransactionId))]
     public class NewTransactionPageViewModel : BaseViewModel
     {
@@ -29,7 +29,7 @@ namespace MoneyManger.ViewModels
             {
                 Enum.TryParse(TransactionTypeSelection, out TransactionType type);
                 decimal.TryParse(Amount, out decimal amount);
-                int.TryParse(PersonId, out int personId);
+                int.TryParse(EntityId, out int personId);
 
                 if (IsNewTransaction)
                 {
@@ -42,7 +42,7 @@ namespace MoneyManger.ViewModels
                         {
                             Notes = Notes
                         },
-                        PersonId = personId,
+                        EntityId = personId,
                         Description = ""
                     });
 
@@ -69,7 +69,7 @@ namespace MoneyManger.ViewModels
                             Notes = Notes,
                             TransactionId = SelectedTransaction.TransactionId
                         },
-                        PersonId = personId,
+                        EntityId = personId,
                         Description = "",
                         TransactionId = SelectedTransaction.TransactionId
                     });
@@ -160,7 +160,7 @@ namespace MoneyManger.ViewModels
         private bool _isNotesValid;
         private bool _isAmountValid;
         private string _transactionTypeSelection;
-        public string PersonId { get => _personId; set => _personId = value; }
+        public string EntityId { get => _personId; set => _personId = value; }
         public DateTime SelectedDate { get => _selectedDate; set => SetProperty(ref _selectedDate, value); }
         public TimeSpan SelectedTime { get => _selectedTime; set => SetProperty(ref _selectedTime, value); }
         public string Notes { get => _notes; set => SetProperty(ref _notes, value); }

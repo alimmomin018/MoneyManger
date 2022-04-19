@@ -22,7 +22,7 @@ namespace MoneyManger.Services
             var databasePath = Path.Combine(FileSystem.AppDataDirectory, Constants.DB_NAME);
             DbContext = new SQLiteAsyncConnection(databasePath);
 
-            await DbContext.CreateTableAsync<Person>();
+            await DbContext.CreateTableAsync<Entity>();
             await DbContext.CreateTableAsync<Transaction>();
             await DbContext.CreateTableAsync<Note>();
         }
