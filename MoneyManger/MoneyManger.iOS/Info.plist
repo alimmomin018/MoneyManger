@@ -25,7 +25,7 @@
 	<key>CFBundleDisplayName</key>
 	<string>MoneyManger</string>
 	<key>CFBundleIdentifier</key>
-	<string>com.misal.moneymanger</string>
+	<string>com.misal.moneymanger.v2</string>
 	<key>CFBundleVersion</key>
 	<string>1.0</string>
 	<key>UILaunchStoryboardName</key>
@@ -34,5 +34,7 @@
 	<string>MoneyManger</string>
 	<key>XSAppIconAssets</key>
 	<string>Assets.xcassets/AppIcon.appiconset</string>
+	<key>CFBundleShortVersionString</key>
+	<string>1</string>
 </dict>
 </plist>
