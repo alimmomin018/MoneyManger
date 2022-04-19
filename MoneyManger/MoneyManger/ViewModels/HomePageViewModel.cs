@@ -19,7 +19,7 @@ namespace MoneyManger.ViewModels
             Entities = new ObservableRangeCollection<Entity>();
             LoadEntitiesCommand = new AsyncCommand(() => ExecuteLoadEntitiesCommand());
 
-            EntityTapped = new AsyncCommand<Entity>((p) => OnEntitySelected(p));
+            EntityTapped = new AsyncCommand<Entity>((p) => OnEntitySelectedAsync(p));
             AddEntityCommand = new AsyncCommand(() => AddEntityAsync());
             AddTransactionCommand = new AsyncCommand<Entity>((p) => AddTransactionAsync(p));
             EditEntityCommand = new AsyncCommand<Entity>((p) => EditEntityAsync(p));
@@ -67,11 +67,11 @@ namespace MoneyManger.ViewModels
         async Task AddEntityAsync()
         {
             var response = await UserDialogs.Instance.PromptAsync(
-                Constants.PERSON_ADD_DIALOG_MESSAGE,
-                Constants.PERSON_ADD_DIALOG_TITLE,
+                Constants.ENTITY_ADD_DIALOG_MESSAGE,
+                Constants.ENTITY_ADD_DIALOG_TITLE,
                 Constants.OK_LABEL,
                 Constants.CANCEL_LABEL,
-                Constants.PERSON_DIALOG_PLACE_HOLDER,
+                Constants.ENTITY_DIALOG_PLACE_HOLDER,
                 InputType.Default);
 
             if(!string.IsNullOrWhiteSpace(response.Text))
@@ -87,7 +87,7 @@ namespace MoneyManger.ViewModels
                     var success = await EntityDataStore.AddEntityAsync(newEntity);
                     if (success)
                     {
-                        UserDialogs.Instance.Toast(Constants.PERSON_ADD_SUCCESS);
+                        UserDialogs.Instance.Toast(Constants.ENTITY_ADD_SUCCESS);
                         await ExecuteLoadEntitiesCommand();
                     }
                 }
@@ -102,16 +102,16 @@ namespace MoneyManger.ViewModels
             }
         }
         
-        async Task EditEntityAsync(Entity person)
+        async Task EditEntityAsync(Entity entity)
         {
             PromptConfig promptConfig = new PromptConfig
             {
-                Text = person.Name,
-                Title = Constants.PERSON_ADD_DIALOG_TITLE,
-                Message = Constants.PERSON_EDIT_DIALOG_MESSAGE,
+                Text = entity.Name,
+                Title = Constants.ENTITY_ADD_DIALOG_TITLE,
+                Message = Constants.ENTITY_EDIT_DIALOG_MESSAGE,
                 OkText = Constants.OK_LABEL,
                 CancelText = Constants.CANCEL_LABEL,
-                Placeholder = Constants.PERSON_DIALOG_PLACE_HOLDER,
+                Placeholder = Constants.ENTITY_DIALOG_PLACE_HOLDER,
                 InputType = InputType.Default
             };
             var response = await UserDialogs.Instance.PromptAsync(promptConfig);
@@ -120,12 +120,12 @@ namespace MoneyManger.ViewModels
             {
                 try
                 {
-                    person.Name = response.Text;
+                    entity.Name = response.Text;
 
-                    var success = await EntityDataStore.UpdateEntityAsync(person);
+                    var success = await EntityDataStore.UpdateEntityAsync(entity);
                     if (success)
                     {
-                        UserDialogs.Instance.Toast(Constants.PERSON_UPDATE_SUCCESS);
+                        UserDialogs.Instance.Toast(Constants.ENTITY_UPDATE_SUCCESS);
                         await ExecuteLoadEntitiesCommand();
                     }
                 }
@@ -140,15 +140,15 @@ namespace MoneyManger.ViewModels
             }
             else
             {
-                await UserDialogs.Instance.ConfirmAsync(Constants.PERSON_NAME_EMPTY);
+                await UserDialogs.Instance.ConfirmAsync(Constants.ENTITY_NAME_EMPTY);
             }
         }
         
-        async Task DeleteEntityAsync(Entity person)
+        async Task DeleteEntityAsync(Entity entity)
         {
             var response = await UserDialogs.Instance.ConfirmAsync(
-                Constants.PERSON_DELETE_DIALOG_MESSAGE,
-                Constants.PERSON_DELETE_DIALOG_TITLE,
+                Constants.ENTITY_DELETE_DIALOG_MESSAGE,
+                Constants.ENTITY_DELETE_DIALOG_TITLE,
                 Constants.OK_LABEL,
                 Constants.CANCEL_LABEL);
 
@@ -156,12 +156,12 @@ namespace MoneyManger.ViewModels
             {
                 try
                 {
-                    person.IsActive = false;
+                    entity.IsActive = false;
 
-                    var success = await EntityDataStore.UpdateEntityAsync(person);
+                    var success = await EntityDataStore.UpdateEntityAsync(entity);
                     if (success)
                     {
-                        UserDialogs.Instance.Toast(Constants.PERSON_DELETE_SUCCESS);
+                        UserDialogs.Instance.Toast(Constants.ENTITY_DELETE_SUCCESS);
                         await ExecuteLoadEntitiesCommand();
                     }
                 }
@@ -176,17 +176,17 @@ namespace MoneyManger.ViewModels
             }
         }
 
-        async Task AddTransactionAsync(Entity person)
+        async Task AddTransactionAsync(Entity entity)
         {
-            await Shell.Current.GoToAsync($"{nameof(NewTransactionPage)}?{nameof(NewTransactionPageViewModel.EntityId)}={person.EntityId}&{nameof(NewTransactionPageViewModel.TransactionId)}=");
+            await Shell.Current.GoToAsync($"{nameof(NewTransactionPage)}?{nameof(NewTransactionPageViewModel.EntityId)}={entity.EntityId}&{nameof(NewTransactionPageViewModel.TransactionId)}=");
         }
 
-        async Task OnEntitySelected(Entity person)
+        async Task OnEntitySelectedAsync(Entity entity)
         {
-            if (person == null)
+            if (entity == null)
                 return;
 
-            await Shell.Current.GoToAsync($"{nameof(TransactionPage)}?{nameof(TransactionPageViewModel.EntityId)}={person.EntityId}");
+            await Shell.Current.GoToAsync($"{nameof(TransactionPage)}?{nameof(TransactionPageViewModel.EntityId)}={entity.EntityId}");
         }
 
         #region Commands and Bindings

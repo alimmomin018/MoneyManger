@@ -18,9 +18,18 @@ namespace MoneyManger.ViewModels
 
             LoadTransactionsCommand = new AsyncCommand(() => ExecuteLoadTransactionsCommand());
             CopyTransactionCommand = new AsyncCommand<Transaction>((t) => CopyTransactionAsync(t));
+            TransactionTappedCommand = new AsyncCommand<Transaction>((t) => OnTransactionTappedAsync(t));
             AddTransactionCommand = new AsyncCommand(() => AddTransactionAsync());
             EditTransactionCommand = new AsyncCommand<Transaction>((t) => EditTransactionAsync(t));
             DeleteTransactionCommand = new AsyncCommand<Transaction>((t) => DeleteTransactionAsync(t));
+        }
+
+        async Task OnTransactionTappedAsync(Transaction t)
+        {
+            if (t == null)
+                return;
+
+            await Shell.Current.GoToAsync($"{nameof(NewTransactionPage)}?{nameof(NewTransactionPageViewModel.TransactionId)}={t.TransactionId}&{nameof(NewTransactionPageViewModel.IsReadOnly)}={true}");
         }
 
         private async Task ExecuteLoadTransactionsCommand()
@@ -83,8 +92,8 @@ namespace MoneyManger.ViewModels
             try
             {
                 Transactions.Clear();
-                int personId = int.Parse(value);
-                SelectedEntity = await TransactionDataStore.GetAllTransactionsForEntityAsync(personId);
+                int entityId = int.Parse(value);
+                SelectedEntity = await TransactionDataStore.GetAllTransactionsForEntityAsync(entityId);
 
                 if (SelectedEntity.Transactions != null)
                     Transactions.AddRange(SelectedEntity.Transactions.OrderByDescending(t => t.Date));
@@ -106,19 +115,20 @@ namespace MoneyManger.ViewModels
         public AsyncCommand LoadTransactionsCommand { get; }
         public AsyncCommand<Transaction> CopyTransactionCommand { get; }
         public AsyncCommand AddTransactionCommand { get; }
+        public AsyncCommand<Transaction> TransactionTappedCommand { get; }
         public AsyncCommand<Transaction> EditTransactionCommand { get; }
         public AsyncCommand<Transaction> DeleteTransactionCommand { get; }
 
         private Entity _selectedEntity;
-        private string _personId;
+        private string _entityId;
         private decimal _totalIncome;
         private decimal _totalExpense;
         public string EntityId
         {
-            get => _personId;
+            get => _entityId;
             set
             {
-                _personId = value;
+                _entityId = value;
                 LoadEntityId(value);
             }
         }

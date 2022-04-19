@@ -11,23 +11,23 @@
         #endregion
 
         #region Entity Dialog Message
-        public const string PERSON_DIALOG_PLACE_HOLDER = "Name";
+        public const string ENTITY_DIALOG_PLACE_HOLDER = "Name";
 
-        public const string PERSON_ADD_DIALOG_TITLE = "Add New Entity";
-        public const string PERSON_ADD_DIALOG_MESSAGE = "What is the name of the entity you want to manage money for?";
+        public const string ENTITY_ADD_DIALOG_TITLE = "Add New Entity";
+        public const string ENTITY_ADD_DIALOG_MESSAGE = "What is the name of the entity you want to manage money for?";
         
-        public const string PERSON_EDIT_DIALOG_TITLE = "Edit Entity";
-        public const string PERSON_EDIT_DIALOG_MESSAGE = "What is the name of the entity you want to update to?";
+        public const string ENTITY_EDIT_DIALOG_TITLE = "Edit Entity";
+        public const string ENTITY_EDIT_DIALOG_MESSAGE = "What is the name of the entity you want to update to?";
 
-        public const string PERSON_DELETE_DIALOG_TITLE = "Delete Entity";
-        public const string PERSON_DELETE_DIALOG_MESSAGE = "Are you sure you want to delete this entity?";
+        public const string ENTITY_DELETE_DIALOG_TITLE = "Delete Entity";
+        public const string ENTITY_DELETE_DIALOG_MESSAGE = "Are you sure you want to delete this entity?";
 
-        public const string PERSON_ADD_SUCCESS = "Entity added successfully.";
-        public const string PERSON_ADD_FAILED = "Entity added failed.";
-        public const string PERSON_UPDATE_SUCCESS = "Entity updated successfully.";
-        public const string PERSON_UPDATE_FAILED = "Entity updated failed.";
-        public const string PERSON_DELETE_SUCCESS = "Entity deleted successfully.";
-        public const string PERSON_DELETE_FAILED = "Entity deleted failed.";
+        public const string ENTITY_ADD_SUCCESS = "Entity added successfully.";
+        public const string ENTITY_ADD_FAILED = "Entity added failed.";
+        public const string ENTITY_UPDATE_SUCCESS = "Entity updated successfully.";
+        public const string ENTITY_UPDATE_FAILED = "Entity updated failed.";
+        public const string ENTITY_DELETE_SUCCESS = "Entity deleted successfully.";
+        public const string ENTITY_DELETE_FAILED = "Entity deleted failed.";
         #endregion
 
         #region Transaction Dialog Message
@@ -56,9 +56,9 @@
         #endregion
 
         #region Error and validation Message
-        public const string PERSON_NAME_EMPTY = "Entity name can not be empty.";
-        public const string PERSON_NULL = "Entity can not be null or empty.";
-        public const string PERSON_NON_ZERO_VALIDATION_FAILED = "EntityId cannot be less then or equal to zero.";
+        public const string ENTITY_NAME_EMPTY = "Entity name can not be empty.";
+        public const string ENTITY_NULL = "Entity can not be null or empty.";
+        public const string ENTITY_NON_ZERO_VALIDATION_FAILED = "EntityId cannot be less then or equal to zero.";
 
         public const string TRANSACTION_NULL = "Transaction can not be null or empty.";
         public const string TRANSACTION_NON_ZERO_VALIDATION_FAILED = "TransactionId cannot be less then or equal to zero.";

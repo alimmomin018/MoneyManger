@@ -9,21 +9,21 @@ namespace MoneyManger.Services
 {
     public class EntityDataStore : BaseDataStore, IEntityDataStore
     {
-        public async Task<bool> AddEntityAsync(Entity person)
+        public async Task<bool> AddEntityAsync(Entity entity)
         {
-            if (string.IsNullOrWhiteSpace(person.Name))
-                throw new ApplicationException(Constants.PERSON_ADD_FAILED);
+            if (string.IsNullOrWhiteSpace(entity.Name))
+                throw new ApplicationException(Constants.ENTITY_ADD_FAILED);
 
-            await DbContext.InsertAsync(person);
+            await DbContext.InsertAsync(entity);
             return true;
         }
 
-        public async Task<bool> DeleteEntityAsync(int personId)
+        public async Task<bool> DeleteEntityAsync(int entityId)
         {
-            if (personId <= 0)
-                throw new ApplicationException(Constants.PERSON_NON_ZERO_VALIDATION_FAILED);
+            if (entityId <= 0)
+                throw new ApplicationException(Constants.ENTITY_NON_ZERO_VALIDATION_FAILED);
 
-            await DbContext.Table<Entity>().DeleteAsync(x => x.EntityId == personId);
+            await DbContext.Table<Entity>().DeleteAsync(x => x.EntityId == entityId);
             return true;
         }
 
@@ -33,21 +33,21 @@ namespace MoneyManger.Services
             return peoples;
         }
 
-        public async Task<Entity> GetEntityAsync(int personId)
+        public async Task<Entity> GetEntityAsync(int entityId)
         {
-            if (personId <= 0)
-                throw new ApplicationException(Constants.PERSON_NON_ZERO_VALIDATION_FAILED);
+            if (entityId <= 0)
+                throw new ApplicationException(Constants.ENTITY_NON_ZERO_VALIDATION_FAILED);
 
-            var person = await DbContext.Table<Entity>().FirstOrDefaultAsync(x => x.EntityId == personId);
-            return person;
+            var entity = await DbContext.Table<Entity>().FirstOrDefaultAsync(x => x.EntityId == entityId);
+            return entity;
         }
 
-        public async Task<bool> UpdateEntityAsync(Entity person)
+        public async Task<bool> UpdateEntityAsync(Entity entity)
         {
-            if (person?.EntityId == null)
-                throw new ApplicationException(Constants.PERSON_NON_ZERO_VALIDATION_FAILED);
+            if (entity?.EntityId == null)
+                throw new ApplicationException(Constants.ENTITY_NON_ZERO_VALIDATION_FAILED);
 
-            await DbContext.UpdateAsync(person);
+            await DbContext.UpdateAsync(entity);
             return true;
         }
     }

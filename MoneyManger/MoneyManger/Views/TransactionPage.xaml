@@ -197,6 +197,12 @@
                                                     </Label>
                                                 </StackLayout>
                                             </StackLayout>
+                                            <Frame.GestureRecognizers>
+                                                <TapGestureRecognizer
+                                                    Command="{Binding Path=BindingContext.TransactionTappedCommand, Source={x:Reference Layout}}"
+                                                    CommandParameter="{Binding .}"
+                                                    NumberOfTapsRequired="1" />
+                                            </Frame.GestureRecognizers>
                                         </Frame>
                                     </SwipeView>
                                 </Frame>
