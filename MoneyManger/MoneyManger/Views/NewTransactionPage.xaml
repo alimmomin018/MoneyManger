@@ -82,6 +82,7 @@
                         <StackLayout
                             Padding="0,10,0,0"
                             HorizontalOptions="Center"
+                            IsEnabled="{Binding IsEnabled}"
                             Orientation="Horizontal"
                             RadioButtonGroup.GroupName="TransactionType"
                             RadioButtonGroup.SelectedValue="{Binding TransactionTypeSelection}">
@@ -107,9 +108,16 @@
                             </RadioButton>
                         </StackLayout>
                     </StackLayout>
-                    <controls:CustomDatePicker CustomDate="{Binding SelectedDate}" PlaceHolder="Date" />
-                    <controls:CustomTimePicker CustomTime="{Binding SelectedTime}" PlaceHolder="Time" />
+                    <controls:CustomDatePicker
+                        CustomDate="{Binding SelectedDate}"
+                        IsEnabled="{Binding IsEnabled}"
+                        PlaceHolder="Date" />
+                    <controls:CustomTimePicker
+                        CustomTime="{Binding SelectedTime}"
+                        IsEnabled="{Binding IsEnabled}"
+                        PlaceHolder="Time" />
                     <Entry
+                        IsEnabled="{Binding IsEnabled}"
                         Keyboard="Numeric"
                         Placeholder="Amount"
                         Style="{StaticResource BaseEntry}"
@@ -120,6 +128,7 @@
                         Style="{StaticResource ErrorLabel}"
                         Text="Amount is required." />
                     <Entry
+                        IsEnabled="{Binding IsEnabled}"
                         IsTextPredictionEnabled="True"
                         Keyboard="Text"
                         Placeholder="Notes"
@@ -134,6 +143,7 @@
                         Margin="0,5"
                         Padding="5"
                         Command="{Binding SaveCommand}"
+                        IsEnabled="{Binding IsEnabled}"
                         Style="{StaticResource BaseButton}"
                         Text="Save" />
                 </StackLayout>

@@ -8,6 +8,7 @@ using Xamarin.Forms;
 namespace MoneyManger.ViewModels
 {
     [QueryProperty(nameof(EntityId), nameof(EntityId))]
+    [QueryProperty(nameof(IsReadOnly), nameof(IsReadOnly))]
     [QueryProperty(nameof(TransactionId), nameof(TransactionId))]
     public class NewTransactionPageViewModel : BaseViewModel
     {
@@ -25,7 +26,7 @@ namespace MoneyManger.ViewModels
             {
                 Enum.TryParse(TransactionTypeSelection, out TransactionType type);
                 decimal.TryParse(Amount, out decimal amount);
-                int.TryParse(EntityId, out int personId);
+                int.TryParse(EntityId, out int entityId);
 
                 if (IsNewTransaction)
                 {
@@ -38,7 +39,7 @@ namespace MoneyManger.ViewModels
                         {
                             Notes = Notes
                         },
-                        EntityId = personId,
+                        EntityId = entityId,
                         Description = ""
                     });
 
@@ -65,7 +66,7 @@ namespace MoneyManger.ViewModels
                             Notes = Notes,
                             TransactionId = SelectedTransaction.TransactionId
                         },
-                        EntityId = personId,
+                        EntityId = entityId,
                         Description = "",
                         TransactionId = SelectedTransaction.TransactionId
                     });
@@ -131,6 +132,16 @@ namespace MoneyManger.ViewModels
                     SelectedTime = DateTime.Now.TimeOfDay;
                     TransactionTypeSelection = TransactionType.Expense.ToString();
                 }
+
+                if (!string.IsNullOrEmpty(IsReadOnly))
+                {
+                    Title = "Viewing Transaction";
+                    IsEnabled = false;
+                }
+                else
+                {
+                    IsEnabled = true;
+                }
             }
             catch (ApplicationException aex)
             {
@@ -148,7 +159,9 @@ namespace MoneyManger.ViewModels
         private bool IsNewTransaction;
         private Transaction SelectedTransaction;
         private string _transactionId;
-        private string _personId;
+        private string _entityId;
+        private string _isReadOnly;
+        private bool _isEnabled;
         private DateTime _selectedDate;
         private TimeSpan _selectedTime;
         private string _notes;
@@ -156,7 +169,9 @@ namespace MoneyManger.ViewModels
         private bool _isNotesValid;
         private bool _isAmountValid;
         private string _transactionTypeSelection;
-        public string EntityId { get => _personId; set => _personId = value; }
+        public string EntityId { get => _entityId; set => _entityId = value; }
+        public string IsReadOnly { get => _isReadOnly; set => _isReadOnly = value; }
+        public bool IsEnabled { get => _isEnabled; set => SetProperty(ref _isEnabled, value); }
         public DateTime SelectedDate { get => _selectedDate; set => SetProperty(ref _selectedDate, value); }
         public TimeSpan SelectedTime { get => _selectedTime; set => SetProperty(ref _selectedTime, value); }
         public string Notes { get => _notes; set => SetProperty(ref _notes, value); }
