@@ -2,6 +2,8 @@
 using MoneyManger.Services.Interfaces;
 using SQLiteNetExtensionsAsync.Extensions;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace MoneyManger.Services
@@ -13,7 +15,7 @@ namespace MoneyManger.Services
             if (transaction == null)
                 throw new ApplicationException(Constants.TRANSACTION_ADD_FAILED);
 
-            await DbContext.InsertWithChildrenAsync(transaction);
+            await DbContext.InsertAsync(transaction);
             return true;
         }
 
@@ -46,6 +48,12 @@ namespace MoneyManger.Services
             var transaction = await DbContext.GetWithChildrenAsync<Transaction>(transactionId);
             return transaction;
         }
+        
+        public async Task<List<string>> GetAllTransactionNotesAsync()
+        {
+            var transactions = await DbContext.Table<Transaction>().ToListAsync();
+            return transactions.Select(x => x.Notes).Distinct().ToList();
+        }
 
         public async Task<bool> UpdateTransactionAsync(Transaction transaction)
         {
@@ -53,7 +61,6 @@ namespace MoneyManger.Services
                 throw new ApplicationException(Constants.TRANSACTION_NON_ZERO_VALIDATION_FAILED);
 
             await DbContext.UpdateAsync(transaction);
-            await DbContext.UpdateAsync(transaction.Notes);
             return true;
         }
     }

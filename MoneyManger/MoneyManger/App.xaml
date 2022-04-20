@@ -126,7 +126,7 @@
                             </VisualState>
                             <VisualState x:Name="Disabled">
                                 <VisualState.Setters>
-                                    <Setter Property="BackgroundColor" Value="#332196F3" />
+                                    <Setter Property="BackgroundColor" Value="#df6e57" />
                                 </VisualState.Setters>
                             </VisualState>
                         </VisualStateGroup>
@@ -149,6 +149,14 @@
                 <Setter Property="HasShadow" Value="{OnPlatform Android=true, iOS=false, Default=true}" />
                 <Setter Property="CornerRadius" Value="5" />
                 <Setter Property="Padding" Value="12" />
+                <Setter Property="BackgroundColor" Value="{AppThemeBinding Dark={StaticResource CardBackgroundDark}, Light={StaticResource CardBackground}}" />
+            </Style>
+
+            <Style x:Key="BaseSearchBar" TargetType="SearchBar">
+                <Setter Property="Visual" Value="Default" />
+                <Setter Property="PlaceholderColor" Value="{AppThemeBinding Dark={StaticResource TextColorDark}, Light={StaticResource TextColor}}" />
+                <Setter Property="TextColor" Value="{AppThemeBinding Dark={StaticResource TextColorDark}, Light={StaticResource TextColor}}" />
+                <Setter Property="CancelButtonColor" Value="{AppThemeBinding Dark={StaticResource TextColorDark}, Light={StaticResource TextColor}}" />
                 <Setter Property="BackgroundColor" Value="{AppThemeBinding Dark={StaticResource CardBackgroundDark}, Light={StaticResource CardBackground}}" />
             </Style>
 

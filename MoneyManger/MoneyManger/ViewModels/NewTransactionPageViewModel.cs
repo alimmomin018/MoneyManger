@@ -1,6 +1,8 @@
 ﻿using Acr.UserDialogs;
 using MoneyManger.Models;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Xamarin.CommunityToolkit.ObjectModel;
 using Xamarin.Forms;
@@ -27,18 +29,15 @@ namespace MoneyManger.ViewModels
                 Enum.TryParse(TransactionTypeSelection, out TransactionType type);
                 decimal.TryParse(Amount, out decimal amount);
                 int.TryParse(EntityId, out int entityId);
-
+                                
                 if (IsNewTransaction)
-                {
+                {                    
                     var success = await TransactionDataStore.AddTransactionAsync(new Transaction
                     {
                         Type = type,
                         Amount = amount,
                         Date = SelectedDate + SelectedTime,
-                        Notes = new Note
-                        {
-                            Notes = Notes
-                        },
+                        Notes = SelectedNote,
                         EntityId = entityId,
                         Description = ""
                     });
@@ -60,12 +59,7 @@ namespace MoneyManger.ViewModels
                         Type = type,
                         Amount = amount,
                         Date = SelectedDate + SelectedTime,
-                        Notes = new Note
-                        {
-                            NoteId = SelectedTransaction.Notes.NoteId,
-                            Notes = Notes,
-                            TransactionId = SelectedTransaction.TransactionId
-                        },
+                        Notes = SelectedNote,
                         EntityId = entityId,
                         Description = "",
                         TransactionId = SelectedTransaction.TransactionId
@@ -99,7 +93,7 @@ namespace MoneyManger.ViewModels
 
         private bool IsFormValid()
         {
-            IsNotesValid = !string.IsNullOrWhiteSpace(Notes);
+            IsNotesValid = !string.IsNullOrWhiteSpace(SelectedNote);
             IsAmountValid = !string.IsNullOrWhiteSpace(Amount);
 
             return IsNotesValid && IsAmountValid;
@@ -122,7 +116,7 @@ namespace MoneyManger.ViewModels
                     SelectedTime = SelectedTransaction.Date.TimeOfDay;
                     TransactionTypeSelection = SelectedTransaction.Type.ToString();
                     Amount = SelectedTransaction.Amount.ToString();
-                    Notes = SelectedTransaction.Notes.Notes;
+                    SelectedNote = SelectedTransaction.Notes;
                 }
                 else
                 {
@@ -140,6 +134,7 @@ namespace MoneyManger.ViewModels
                 }
                 else
                 {
+                    NotesString = await TransactionDataStore.GetAllTransactionNotesAsync();
                     IsEnabled = true;
                 }
             }
@@ -164,7 +159,8 @@ namespace MoneyManger.ViewModels
         private bool _isEnabled;
         private DateTime _selectedDate;
         private TimeSpan _selectedTime;
-        private string _notes;
+        private List<string> _notes;
+        private string _selectedNote;
         private string _amount;
         private bool _isNotesValid;
         private bool _isAmountValid;
@@ -174,7 +170,8 @@ namespace MoneyManger.ViewModels
         public bool IsEnabled { get => _isEnabled; set => SetProperty(ref _isEnabled, value); }
         public DateTime SelectedDate { get => _selectedDate; set => SetProperty(ref _selectedDate, value); }
         public TimeSpan SelectedTime { get => _selectedTime; set => SetProperty(ref _selectedTime, value); }
-        public string Notes { get => _notes; set => SetProperty(ref _notes, value); }
+        public List<string> NotesString { get => _notes; set => SetProperty(ref _notes, value); }
+        public string SelectedNote { get => _selectedNote; set => SetProperty(ref _selectedNote, value); }
         public string Amount { get => _amount; set => SetProperty(ref _amount, value); }
         public string TransactionTypeSelection { get => _transactionTypeSelection; set => SetProperty(ref _transactionTypeSelection, value); }
         public bool IsAmountValid { get => _isAmountValid; set => SetProperty(ref _isAmountValid, value); }

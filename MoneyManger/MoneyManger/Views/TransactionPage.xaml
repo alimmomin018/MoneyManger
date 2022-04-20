@@ -48,6 +48,9 @@
                         <Label HorizontalTextAlignment="Center" Text="{Binding SelectedEntity.Total}" />
                     </StackLayout>
                 </Grid>
+                <StackLayout Padding="10,0">
+                    <Label Style="{StaticResource BaseHeaderLabel}" Text="Transactions" />
+                </StackLayout>
                 <RefreshView
                     Command="{Binding LoadTransactionsCommand}"
                     IsRefreshing="{Binding IsBusy}"
@@ -75,11 +78,6 @@
                         <CollectionView.ItemsLayout>
                             <LinearItemsLayout ItemSpacing="5" Orientation="Vertical" />
                         </CollectionView.ItemsLayout>
-                        <CollectionView.Header>
-                            <StackLayout>
-                                <Label Style="{StaticResource BaseHeaderLabel}" Text="Transactions" />
-                            </StackLayout>
-                        </CollectionView.Header>
                         <CollectionView.ItemTemplate>
                             <DataTemplate>
                                 <Frame Padding="0" Style="{StaticResource BaseCard}">
@@ -164,7 +162,7 @@
                                                     <Label
                                                         LineBreakMode="NoWrap"
                                                         Style="{StaticResource BaseTitleLabel}"
-                                                        Text="{Binding Notes.Notes}" />
+                                                        Text="{Binding Notes}" />
                                                     <Label
                                                         LineBreakMode="NoWrap"
                                                         Style="{StaticResource BaseLabel}"
