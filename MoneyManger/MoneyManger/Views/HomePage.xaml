@@ -16,6 +16,41 @@
     </ContentPage.ToolbarItems>
     <ContentPage.Content>
         <StackLayout Style="{StaticResource BasePageStyle}">
+            <StackLayout Padding="10,0">
+                <StackLayout Orientation="Horizontal">
+                    <Label
+                        HorizontalOptions="FillAndExpand"
+                        Style="{StaticResource BaseHeaderLabel}"
+                        Text="Entity" />
+                    <Image HorizontalOptions="End">
+                        <Image.Source>
+                            <FontImageSource
+                                FontFamily="Regular"
+                                Glyph="{x:Static fa:FAIcons.Search}"
+                                Size="20"
+                                Color="{AppThemeBinding Dark={StaticResource TextColorDark},
+                                                        Light={StaticResource TextColor}}" />
+                        </Image.Source>
+                        <Image.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="SearchIcon_Tapped" />
+                        </Image.GestureRecognizers>
+                    </Image>
+                </StackLayout>
+                <SearchBar
+                    x:Name="sbEntity"
+                    IsVisible="False"
+                    Placeholder="Search Entity"
+                    Style="{StaticResource BaseSearchBar}"
+                    Text="{Binding SearchText}"
+                    TranslationY="-50">
+                    <SearchBar.Behaviors>
+                        <xct:UserStoppedTypingBehavior
+                            Command="{Binding SearchCommand}"
+                            ShouldDismissKeyboardAutomatically="True"
+                            StoppedTypingTimeThreshold="1000" />
+                    </SearchBar.Behaviors>
+                </SearchBar>
+            </StackLayout>
             <RefreshView
                 Command="{Binding LoadEntitiesCommand}"
                 IsRefreshing="{Binding IsBusy}"
@@ -31,7 +66,7 @@
                                     FontFamily="Medium"
                                     HorizontalOptions="CenterAndExpand"
                                     HorizontalTextAlignment="Center"
-                                    Text="You have not added anyone yet."
+                                    Text="No entity found."
                                     VerticalTextAlignment="Center" />
                                 <Button
                                     Command="{Binding AddEntityCommand}"
@@ -40,46 +75,6 @@
                             </StackLayout>
                         </StackLayout>
                     </CollectionView.EmptyView>
-                    <CollectionView.Header>
-                        <StackLayout>
-                            <StackLayout Orientation="Horizontal">
-                                <Label
-                                    HorizontalOptions="FillAndExpand"
-                                    Style="{StaticResource BaseHeaderLabel}"
-                                    Text="Entity" />
-                                <Image HorizontalOptions="End">
-                                    <Image.Source>
-                                        <FontImageSource
-                                            FontFamily="Regular"
-                                            Glyph="{x:Static fa:FAIcons.Search}"
-                                            Size="20"
-                                            Color="{AppThemeBinding Dark={StaticResource TextColorDark},
-                                                                    Light={StaticResource TextColor}}" />
-                                    </Image.Source>
-                                    <Image.GestureRecognizers>
-                                        <TapGestureRecognizer Tapped="SearchIcon_Tapped" />
-                                    </Image.GestureRecognizers>
-                                </Image>
-                            </StackLayout>
-                            <SearchBar
-                                x:Name="sbEntity"
-                                IsVisible="False"
-                                Placeholder="Search Entity"
-                                PlaceholderColor="{AppThemeBinding Dark={StaticResource TextColorDark},
-                                                                   Light={StaticResource TextColor}}"
-                                Text="{Binding SearchText}"
-                                TextColor="{AppThemeBinding Dark={StaticResource TextColorDark},
-                                                            Light={StaticResource TextColor}}"
-                                TranslationY="-50">
-                                <SearchBar.Behaviors>
-                                    <xct:UserStoppedTypingBehavior
-                                        Command="{Binding SearchCommand}"
-                                        ShouldDismissKeyboardAutomatically="True"
-                                        StoppedTypingTimeThreshold="1000" />
-                                </SearchBar.Behaviors>
-                            </SearchBar>
-                        </StackLayout>
-                    </CollectionView.Header>
                     <CollectionView.ItemsLayout>
                         <LinearItemsLayout ItemSpacing="5" Orientation="Vertical" />
                     </CollectionView.ItemsLayout>

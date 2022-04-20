@@ -127,13 +127,18 @@
                         IsVisible="{Binding IsAmountValid, Converter={StaticResource InvertedBoolConverter}}"
                         Style="{StaticResource ErrorLabel}"
                         Text="Amount is required." />
-                    <Entry
+                    <controls:CustomAutoCompleteEntry
+                        IsEnabled="{Binding IsEnabled}"
+                        Notes="{Binding NotesString}"
+                        Placeholder="Notes"
+                        SelectedNote="{Binding SelectedNote}" />
+                    <!--<Entry
                         IsEnabled="{Binding IsEnabled}"
                         IsTextPredictionEnabled="True"
                         Keyboard="Text"
                         Placeholder="Notes"
                         Style="{StaticResource BaseEntry}"
-                        Text="{Binding Notes}" />
+                        Text="{Binding Notes}" />-->
                     <Label
                         Padding="14,0"
                         IsVisible="{Binding IsNotesValid, Converter={StaticResource InvertedBoolConverter}}"
