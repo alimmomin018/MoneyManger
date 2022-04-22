@@ -3,6 +3,7 @@
     x:Class="MoneyManger.Views.TransactionPage"
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:controls="clr-namespace:MoneyManger.Controls"
     xmlns:fa="clr-namespace:PROOF.Resources"
     xmlns:model="clr-namespace:MoneyManger.Models"
     xmlns:vm="clr-namespace:MoneyManger.ViewModels"
@@ -48,8 +49,109 @@
                         <Label HorizontalTextAlignment="Center" Text="{Binding SelectedEntity.Total}" />
                     </StackLayout>
                 </Grid>
-                <StackLayout Padding="10,0">
+                <StackLayout Padding="10,5">
                     <Label Style="{StaticResource BaseHeaderLabel}" Text="Transactions" />
+                    <BoxView Style="{StaticResource BaseHorizontalLine}" />
+                    <Grid HeightRequest="50">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+                        <Label
+                            x:Name="lbAll"
+                            Grid.Column="0"
+                            HorizontalTextAlignment="Center"
+                            Text="All"
+                            VerticalTextAlignment="Center">
+                            <Label.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="All_Tapped" />
+                            </Label.GestureRecognizers>
+                        </Label>
+                        <Label
+                            x:Name="lbFourWeeks"
+                            Grid.Column="1"
+                            HorizontalTextAlignment="Center"
+                            Text="4wks"
+                            VerticalTextAlignment="Center">
+                            <Label.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="FourWeeks_Tapped" />
+                            </Label.GestureRecognizers>
+                        </Label>
+                        <Label
+                            x:Name="lbThreeMonths"
+                            Grid.Column="2"
+                            HorizontalTextAlignment="Center"
+                            Text="3m"
+                            VerticalTextAlignment="Center">
+                            <Label.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="ThreeMonths_Tapped" />
+                            </Label.GestureRecognizers>
+                        </Label>
+                        <Label
+                            x:Name="lbSixMonths"
+                            Grid.Column="3"
+                            HorizontalTextAlignment="Center"
+                            Text="6m"
+                            VerticalTextAlignment="Center">
+                            <Label.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="SixMonths_Tapped" />
+                            </Label.GestureRecognizers>
+                        </Label>
+                        <Label
+                            x:Name="lbTwelveMonths"
+                            Grid.Column="4"
+                            HorizontalTextAlignment="Center"
+                            Text="12m"
+                            VerticalTextAlignment="Center">
+                            <Label.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="TwelveMonths_Tapped" />
+                            </Label.GestureRecognizers>
+                        </Label>
+                        <Label
+                            x:Name="lbCustom"
+                            Grid.Column="5"
+                            HorizontalTextAlignment="Center"
+                            Text="custom"
+                            VerticalTextAlignment="Center">
+                            <Label.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="Custom_Tapped" />
+                            </Label.GestureRecognizers>
+                        </Label>
+                    </Grid>
+                    <StackLayout
+                        x:Name="stCustomDateView"
+                        IsVisible="False"
+                        Orientation="Horizontal">
+                        <controls:CustomDatePicker
+                            x:Name="dtCustomStartDate"
+                            CustomDate="{Binding CustomStartDate}"
+                            HorizontalOptions="CenterAndExpand"
+                            PlaceHolder="Start Date" />
+                        <controls:CustomDatePicker
+                            x:Name="dtCustomEndDate"
+                            CustomDate="{Binding CustomEndDate}"
+                            HorizontalOptions="CenterAndExpand"
+                            PlaceHolder="End Date" />
+                    </StackLayout>
+                    <BoxView Style="{StaticResource BaseHorizontalLine}" />
+                    <Label
+                        x:Name="lbFilterTitle"
+                        Margin="0,5"
+                        HorizontalTextAlignment="Center"
+                        Style="{StaticResource BaseLabel}"
+                        Text="Viewing All" >
+                        <Label.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="FilterTitle_Tapped" />
+                        </Label.GestureRecognizers>
+                    </Label>
+                    <BoxView Style="{StaticResource BaseHorizontalLine}" />
                 </StackLayout>
                 <RefreshView
                     Command="{Binding LoadTransactionsCommand}"

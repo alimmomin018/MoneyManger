@@ -189,6 +189,12 @@
                 <Setter Property="BackgroundColor" Value="{AppThemeBinding Dark={StaticResource WindowBackgroundColorDark}, Light={StaticResource WindowBackgroundColor}}" />
             </Style>
 
+            <Style x:Key="BaseHorizontalLine" TargetType="BoxView">
+                <Setter Property="Visual" Value="Material" />
+                <Setter Property="HeightRequest" Value="1" />
+                <Setter Property="Color" Value="{AppThemeBinding Dark={StaticResource SystemGrayDark}, Light={StaticResource SystemGray}}" />
+            </Style>
+
         </ResourceDictionary>
     </Application.Resources>
 </Application>

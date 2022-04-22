@@ -2,7 +2,9 @@
 using MoneyManger.Models;
 using MoneyManger.Views;
 using System;
+using System.ComponentModel;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using Xamarin.CommunityToolkit.ObjectModel;
 using Xamarin.Forms;
@@ -37,7 +39,7 @@ namespace MoneyManger.ViewModels
             IsBusy = true;
             if(EntityId != null)
             {
-                LoadEntityId(EntityId);
+                LoadEntityId(EntityId, StartDate, EndDate);
             }
             IsBusy = false;
         }
@@ -73,7 +75,7 @@ namespace MoneyManger.ViewModels
                     if (success)
                     {
                         UserDialogs.Instance.Toast(Constants.TRANSACTION_DELETE_SUCCESS);
-                        LoadEntityId(transaction.EntityId.ToString());
+                        Transactions.Remove(transaction);
                     }
                 }
                 catch (ApplicationException aex)
@@ -87,14 +89,17 @@ namespace MoneyManger.ViewModels
             }
         }
 
-        private async void LoadEntityId(string value)
+        private async void LoadEntityId(string value, DateTime? startDate, DateTime endDate)
         {
             try
             {
-                Transactions.Clear();
+                if (string.IsNullOrEmpty(value))
+                    return;
+                
                 int entityId = int.Parse(value);
-                SelectedEntity = await TransactionDataStore.GetAllTransactionsForEntityAsync(entityId);
+                SelectedEntity = await TransactionDataStore.GetAllTransactionsForEntityAsync(entityId, startDate, endDate);
 
+                Transactions.Clear();
                 if (SelectedEntity.Transactions != null)
                     Transactions.AddRange(SelectedEntity.Transactions.OrderByDescending(t => t.Date));
 
@@ -121,19 +126,25 @@ namespace MoneyManger.ViewModels
 
         private Entity _selectedEntity;
         private string _entityId;
-        private decimal _totalIncome;
-        private decimal _totalExpense;
+        public string FilterTitle = null;
+        public DateTime? StartDate = null;
+        public DateTime EndDate = DateTime.Now;
         public string EntityId
         {
             get => _entityId;
             set
             {
                 _entityId = value;
-                LoadEntityId(value);
+                LoadEntityId(value, StartDate, EndDate);
             }
         }
 
         public Entity SelectedEntity { get => _selectedEntity; set => SetProperty(ref _selectedEntity, value); }
+
+        private DateTime _customEndDate = DateTime.Now;
+        private DateTime _customStartDate = DateTime.Now;
+        public DateTime CustomStartDate { get => _customStartDate; set { SetProperty(ref _customStartDate, value); LoadEntityId(SelectedEntity?.EntityId.ToString(), value, _customEndDate); } }
+        public DateTime CustomEndDate { get => _customEndDate; set { SetProperty(ref _customEndDate, value); LoadEntityId(SelectedEntity?.EntityId.ToString(), _customStartDate, value); } }
 
         #endregion
     }
