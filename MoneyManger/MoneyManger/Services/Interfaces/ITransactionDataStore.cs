@@ -1,4 +1,5 @@
 ﻿using MoneyManger.Models;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -11,6 +12,6 @@ namespace MoneyManger.Services.Interfaces
         Task<bool> DeleteTransactionAsync(int transactionId);
         Task<Transaction> GetTransactionAsync(int transactionId);
         Task<List<string>> GetAllTransactionNotesAsync();
-        Task<Entity> GetAllTransactionsForEntityAsync(int entityId);
+        Task<Entity> GetAllTransactionsForEntityAsync(int entityId, DateTime? startDate, DateTime endDate);
     }
 }

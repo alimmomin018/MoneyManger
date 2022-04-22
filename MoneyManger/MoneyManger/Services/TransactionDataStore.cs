@@ -28,13 +28,17 @@ namespace MoneyManger.Services
             return true;
         }
 
-        public async Task<Entity> GetAllTransactionsForEntityAsync(int entityId)
+        public async Task<Entity> GetAllTransactionsForEntityAsync(int entityId, DateTime? startDate, DateTime endDate)
         {
             if (entityId <= 0)
                 throw new ApplicationException(Constants.ENTITY_NON_ZERO_VALIDATION_FAILED);
 
+            if(startDate == null)
+                startDate = DateTime.MinValue;
+
             var entity = await DbContext.GetAsync<Entity>(entityId);
-            var transactions = await DbContext.GetAllWithChildrenAsync<Transaction>(x => x.EntityId == entityId);
+            var transactions = await DbContext.GetAllWithChildrenAsync<Transaction>(
+                x => x.EntityId == entityId && x.Date >= startDate && x.Date <= endDate);
             entity.Transactions = transactions;
             
             return entity;
