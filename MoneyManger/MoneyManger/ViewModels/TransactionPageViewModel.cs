@@ -5,6 +5,7 @@ using System;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Text;
 using System.Threading.Tasks;
 using Xamarin.CommunityToolkit.ObjectModel;
 using Xamarin.Forms;
@@ -22,9 +23,20 @@ namespace MoneyManger.ViewModels
             CopyTransactionCommand = new AsyncCommand<Transaction>((t) => CopyTransactionAsync(t));
             TransactionTappedCommand = new AsyncCommand<Transaction>((t) => OnTransactionTappedAsync(t));
             AddTransactionCommand = new AsyncCommand(() => AddTransactionAsync());
+            ExportCommand = new AsyncCommand(() => ExportAsync());
             EditTransactionCommand = new AsyncCommand<Transaction>((t) => EditTransactionAsync(t));
             DeleteTransactionCommand = new AsyncCommand<Transaction>((t) => DeleteTransactionAsync(t));
         }
+
+        async Task ExportAsync()
+        {
+            //var _stringBuilder = new StringBuilder();
+            //_stringBuilder.AppendLine("Shop #,PLine #,Mfg Position,Inspector,Inspection Area");
+            //_stringBuilder.AppendLine(
+            //$"{inspection.ShopNumber},{inspection.PLine},{inspection.MfgPosition},{inspection.InspectorNumber}," +
+            //$"{inspection.SecondaryInspectorNumber},{inspection.InspectionAreaName}");
+        }
+    
 
         async Task OnTransactionTappedAsync(Transaction t)
         {
@@ -120,6 +132,7 @@ namespace MoneyManger.ViewModels
         public AsyncCommand LoadTransactionsCommand { get; }
         public AsyncCommand<Transaction> CopyTransactionCommand { get; }
         public AsyncCommand AddTransactionCommand { get; }
+        public AsyncCommand ExportCommand { get; }
         public AsyncCommand<Transaction> TransactionTappedCommand { get; }
         public AsyncCommand<Transaction> EditTransactionCommand { get; }
         public AsyncCommand<Transaction> DeleteTransactionCommand { get; }
