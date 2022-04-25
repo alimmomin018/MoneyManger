@@ -3,11 +3,13 @@ using MoneyManger.Models;
 using MoneyManger.Views;
 using System;
 using System.ComponentModel;
+using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using Xamarin.CommunityToolkit.ObjectModel;
+using Xamarin.Essentials;
 using Xamarin.Forms;
 
 namespace MoneyManger.ViewModels
@@ -30,11 +32,52 @@ namespace MoneyManger.ViewModels
 
         async Task ExportAsync()
         {
-            //var _stringBuilder = new StringBuilder();
-            //_stringBuilder.AppendLine("Shop #,PLine #,Mfg Position,Inspector,Inspection Area");
-            //_stringBuilder.AppendLine(
-            //$"{inspection.ShopNumber},{inspection.PLine},{inspection.MfgPosition},{inspection.InspectorNumber}," +
-            //$"{inspection.SecondaryInspectorNumber},{inspection.InspectionAreaName}");
+            UserDialogs.Instance.ShowLoading("Exporting...");
+            try
+            {
+                if (Transactions.Count == 0)
+                {
+                    UserDialogs.Instance.Toast("No transactions to export");
+                    return;
+                }
+                
+                var filename = $"{SelectedEntity.Name}-{DateTime.Now.ToString("yyyyMMddHHmmsstt")}.csv";
+                var filePath = Path.Combine(FileSystem.AppDataDirectory, filename);
+                
+                var _stringBuilder = new StringBuilder(); 
+                _stringBuilder.AppendLine($"");
+                _stringBuilder.AppendLine($"");
+                _stringBuilder.AppendLine($"Name, Total Income, Total Expense, Total Balance");
+                _stringBuilder.AppendLine($"{SelectedEntity.Name}, {SelectedEntity.TotalIncome}, {SelectedEntity.TotalExpense}, {SelectedEntity.Total}");
+                _stringBuilder.AppendLine($"");
+                _stringBuilder.AppendLine($"");
+                _stringBuilder.AppendLine($"{SelectedEntity.Transactions.Count} Transactions in total");
+                _stringBuilder.AppendLine($"Date, Income, Expense, Notes, Description");
+                
+                foreach (var t in Transactions)
+                {
+                    var income = t.Type == TransactionType.Income ? t.Amount : 0;
+                    var expense = t.Type == TransactionType.Expense ? t.Amount : 0;
+                    _stringBuilder.AppendLine($"{t.Date.ToString("MM/dd/yyyy hh:mm tt")}, {income}, {expense}, {t.Notes}, {t.Description}");
+                }
+
+                string content = _stringBuilder.ToString();
+                File.WriteAllText(filePath, content);
+
+                await Share.RequestAsync(new ShareFileRequest
+                {
+                    Title = filename,
+                    File = new ShareFile(filePath)
+                });
+            }
+            catch(Exception ex)
+            {
+                UserDialogs.Instance.Toast("Error Exporting: " + ex.Message);
+            }
+            finally
+            {
+                UserDialogs.Instance.HideLoading();
+            }
         }
     
 

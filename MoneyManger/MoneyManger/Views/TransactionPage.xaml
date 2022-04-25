@@ -17,8 +17,8 @@
         </ResourceDictionary>
     </ContentPage.Resources>
     <ContentPage.ToolbarItems>
-        <ToolbarItem Command="{Binding AddTransactionCommand}" IconImageSource="{FontImage FontFamily=Regular, Glyph={x:Static fa:FAIcons.PlusCircle}, Color=White, Size=25}" />
         <ToolbarItem Command="{Binding ExportCommand}" IconImageSource="{FontImage FontFamily=Regular, Glyph={x:Static fa:FAIcons.Upload}, Color=White, Size=25}" />
+        <ToolbarItem Command="{Binding AddTransactionCommand}" IconImageSource="{FontImage FontFamily=Regular, Glyph={x:Static fa:FAIcons.PlusCircle}, Color=White, Size=25}" />
     </ContentPage.ToolbarItems>
     <ContentPage.Content>
         <StackLayout Style="{StaticResource BasePageStyle}">
