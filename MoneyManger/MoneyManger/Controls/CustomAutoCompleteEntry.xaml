@@ -34,7 +34,8 @@
                                 Padding="10,0,0,0"
                                 FontSize="16"
                                 Text="{Binding .}"
-                                TextColor="Black"
+                                TextColor="{AppThemeBinding Dark={StaticResource IncomeTextColorDark},
+                                                        Light={StaticResource IncomeTextColor}}" 
                                 VerticalOptions="CenterAndExpand"
                                 VerticalTextAlignment="Center" />
                         </StackLayout>

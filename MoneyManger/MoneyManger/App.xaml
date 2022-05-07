@@ -74,6 +74,8 @@
                 <Setter Property="HasUnevenRows" Value="True" />
                 <Setter Property="BackgroundColor" Value="Transparent" />
                 <Setter Property="SeparatorVisibility" Value="None" />
+                <Setter Property="HorizontalScrollBarVisibility" Value="Never" />
+                <Setter Property="VerticalScrollBarVisibility" Value="Never" />
                 <Setter Property="RefreshControlColor" Value="{StaticResource SystemBlue}" />
                 <Setter Property="IsPullToRefreshEnabled" Value="True" />
             </Style>

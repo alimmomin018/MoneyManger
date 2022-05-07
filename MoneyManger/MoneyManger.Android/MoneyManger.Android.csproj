@@ -16,7 +16,6 @@
     <AndroidManifest>Properties\AndroidManifest.xml</AndroidManifest>
     <MonoAndroidResourcePrefix>Resources</MonoAndroidResourcePrefix>
     <MonoAndroidAssetsPrefix>Assets</MonoAndroidAssetsPrefix>
-    <AndroidUseLatestPlatformSdk>false</AndroidUseLatestPlatformSdk>
     <TargetFrameworkVersion>v11.0</TargetFrameworkVersion>
     <AndroidEnableSGenConcurrent>true</AndroidEnableSGenConcurrent>
     <AndroidUseAapt2>true</AndroidUseAapt2>
@@ -91,7 +90,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MoneyManger\MoneyManger.csproj">
-      <Project>{C0129FAB-3F84-4CCD-A93F-7F2BA434F9AD}</Project>
+      <Project>{CC764042-17C0-4059-B8C4-6E0518C2082B}</Project>
       <Name>MoneyManger</Name>
     </ProjectReference>
   </ItemGroup>

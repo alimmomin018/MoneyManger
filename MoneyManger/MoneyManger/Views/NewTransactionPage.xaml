@@ -132,18 +132,43 @@
                         Notes="{Binding NotesString}"
                         Placeholder="Notes"
                         SelectedNote="{Binding SelectedNote}" />
-                    <!--<Entry
-                        IsEnabled="{Binding IsEnabled}"
-                        IsTextPredictionEnabled="True"
-                        Keyboard="Text"
-                        Placeholder="Notes"
-                        Style="{StaticResource BaseEntry}"
-                        Text="{Binding Notes}" />-->
                     <Label
                         Padding="14,0"
                         IsVisible="{Binding IsNotesValid, Converter={StaticResource InvertedBoolConverter}}"
                         Style="{StaticResource ErrorLabel}"
                         Text="Notes is required." />
+                    <Entry
+                        IsEnabled="{Binding IsEnabled}"
+                        IsTextPredictionEnabled="True"
+                        Keyboard="Text"
+                        Placeholder="Description"
+                        Style="{StaticResource BaseEntry}"
+                        Text="{Binding Description}" />
+                    <StackLayout>
+                        <Label Text="Uploaded Images:" />
+                        <CollectionView ItemsSource="{Binding Photos}">
+                            <CollectionView.EmptyView>
+                                <StackLayout>
+                                    <Label Text="No images uploaded"/>
+                                </StackLayout>
+                            </CollectionView.EmptyView>
+                            <CollectionView.ItemTemplate>
+                                <DataTemplate>
+                                    <StackLayout x:DataType="model:TransactionPhoto">
+                                        <Image Source="{Binding Photo}"/>
+                                    </StackLayout>
+                                </DataTemplate>
+                            </CollectionView.ItemTemplate>
+                        </CollectionView>
+                        <Frame>
+                            <StackLayout>
+                                <Label
+                                    Text="Click here to upload photo"
+                                    HorizontalOptions="CenterAndExpand"
+                                    VerticalOptions="CenterAndExpand" />
+                            </StackLayout>
+                        </Frame>
+                    </StackLayout>
                     <Button
                         Margin="0,5"
                         Padding="5"

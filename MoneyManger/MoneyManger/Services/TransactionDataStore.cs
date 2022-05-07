@@ -15,7 +15,7 @@ namespace MoneyManger.Services
             if (transaction == null)
                 throw new ApplicationException(Constants.TRANSACTION_ADD_FAILED);
 
-            await DbContext.InsertAsync(transaction);
+            await DbContext.InsertWithChildrenAsync(transaction, recursive: true);
             return true;
         }
 
@@ -24,7 +24,8 @@ namespace MoneyManger.Services
             if (transactionId <= 0)
                 throw new ApplicationException(Constants.TRANSACTION_NON_ZERO_VALIDATION_FAILED);
 
-            await DbContext.Table<Transaction>().DeleteAsync(x => x.TransactionId == transactionId);
+            var transaction = GetTransactionAsync(transactionId);
+            await DbContext.DeleteAsync(transaction, recursive: true);
             return true;
         }
 
@@ -37,8 +38,10 @@ namespace MoneyManger.Services
                 startDate = DateTime.MinValue;
 
             var entity = await DbContext.GetAsync<Entity>(entityId);
-            var transactions = await DbContext.GetAllWithChildrenAsync<Transaction>(
-                x => x.EntityId == entityId && x.Date >= startDate && x.Date <= endDate);
+            var transactions = await DbContext.GetAllWithChildrenAsync<Transaction>
+                (x => x.EntityId == entityId && x.Date >= startDate && x.Date <= endDate,
+                recursive: true);
+
             entity.Transactions = transactions;
             
             return entity;
@@ -49,7 +52,7 @@ namespace MoneyManger.Services
             if (transactionId <= 0)
                 throw new ApplicationException(Constants.TRANSACTION_NON_ZERO_VALIDATION_FAILED);
 
-            var transaction = await DbContext.GetWithChildrenAsync<Transaction>(transactionId);
+            var transaction = await DbContext.GetWithChildrenAsync<Transaction>(transactionId, recursive: true);
             return transaction;
         }
         
@@ -64,7 +67,7 @@ namespace MoneyManger.Services
             if (transaction?.TransactionId <= 0)
                 throw new ApplicationException(Constants.TRANSACTION_NON_ZERO_VALIDATION_FAILED);
 
-            await DbContext.UpdateAsync(transaction);
+            await DbContext.UpdateWithChildrenAsync(transaction);
             return true;
         }
     }

@@ -39,7 +39,7 @@ namespace MoneyManger.ViewModels
                         Date = SelectedDate + SelectedTime,
                         Notes = SelectedNote,
                         EntityId = entityId,
-                        Description = ""
+                        Description = Description
                     });
 
                     if (success)
@@ -61,7 +61,7 @@ namespace MoneyManger.ViewModels
                         Date = SelectedDate + SelectedTime,
                         Notes = SelectedNote,
                         EntityId = entityId,
-                        Description = "",
+                        Description = Description,
                         TransactionId = SelectedTransaction.TransactionId
                     });
 
@@ -117,6 +117,8 @@ namespace MoneyManger.ViewModels
                     TransactionTypeSelection = SelectedTransaction.Type.ToString();
                     Amount = SelectedTransaction.Amount.ToString();
                     SelectedNote = SelectedTransaction.Notes;
+                    Description = SelectedTransaction.Description;
+                    Photos = SelectedTransaction.Photos;
                 }
                 else
                 {
@@ -125,6 +127,7 @@ namespace MoneyManger.ViewModels
                     SelectedDate = DateTime.Now;
                     SelectedTime = DateTime.Now.TimeOfDay;
                     TransactionTypeSelection = TransactionType.Expense.ToString();
+                    Photos = new List<TransactionPhoto>();
                 }
 
                 if (!string.IsNullOrEmpty(IsReadOnly))
@@ -160,7 +163,9 @@ namespace MoneyManger.ViewModels
         private DateTime _selectedDate;
         private TimeSpan _selectedTime;
         private List<string> _notes;
+        private List<TransactionPhoto> _photos;
         private string _selectedNote;
+        public string _description;
         private string _amount;
         private bool _isNotesValid;
         private bool _isAmountValid;
@@ -171,7 +176,9 @@ namespace MoneyManger.ViewModels
         public DateTime SelectedDate { get => _selectedDate; set => SetProperty(ref _selectedDate, value); }
         public TimeSpan SelectedTime { get => _selectedTime; set => SetProperty(ref _selectedTime, value); }
         public List<string> NotesString { get => _notes; set => SetProperty(ref _notes, value); }
+        public List<TransactionPhoto> Photos { get => _photos; set => SetProperty(ref _photos, value); }
         public string SelectedNote { get => _selectedNote; set => SetProperty(ref _selectedNote, value); }
+        public string Description { get => _description; set => SetProperty(ref _description, value); }
         public string Amount { get => _amount; set => SetProperty(ref _amount, value); }
         public string TransactionTypeSelection { get => _transactionTypeSelection; set => SetProperty(ref _transactionTypeSelection, value); }
         public bool IsAmountValid { get => _isAmountValid; set => SetProperty(ref _isAmountValid, value); }

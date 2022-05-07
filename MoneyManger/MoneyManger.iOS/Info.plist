@@ -36,5 +36,11 @@
 	<string>Assets.xcassets/AppIcon.appiconset</string>
 	<key>CFBundleShortVersionString</key>
 	<string>1</string>
+	<key>NSCameraUsageDescription</key>
+	<string>Money Manger needs access to the camera to take photos.</string>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string>Money Manger access to the photo gallery for picking photos.</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Money Manger access to photos gallery for picking photos.</string>
 </dict>
 </plist>
